@@ -88,3 +88,6 @@ datensatz <- data.frame("ID" = ID,
                         "Mathematik_Interesse" = mathe_interesse, 
                         "Programmier_Interesse" = programmier_interesse,
                         "LK_in_Mathe" = LK_in_mathe)
+
+# csv-Datei erstellen:
+write.csv(datensatz, "Datensatz.csv")
