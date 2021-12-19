@@ -1,10 +1,20 @@
 ### Gruppenarbeit - wissenschaftliches Arbeiten - Teil 1###
 
+# zur Reproduzierbarkeit
 set.seed(2802)
+
+# ID-Spalte:
+ID <- 1:100
+
+# Alter normalverteilt und anschliessend abgerundet:
 Alter <- floor(rnorm(100, mean=25, sd=2))
+
+# Studienfach mit verschiedenen Wahrscheinlichkeiten:
 Studienfach <- sample(c("Statistik", "Data Science", "Informatik", "Mathe"), 100, 
                       replace = TRUE, prob = c(0.35, 0.35, 0.2, 0.1))
 
+# Interesse an Mathematik: bei Studienfach Mathe am hoechsten, bei Statistik niedriger,
+# Informatik und Data Science relativ unabhaengig vom Studienfach
 Mathe_Interesse <- function(){
   Mathe_interesse <- rep(0, 100)
   for(i in 1:100){
@@ -23,8 +33,11 @@ Mathe_Interesse <- function(){
   }
   return(Mathe_interesse)
 }
+
 mathe_interesse <- Mathe_Interesse()
 
+# Interesse am Programmieren: bei Studienfach Informatik am hoechsten, bei Data Science
+# etwas geringer und bei Statistik und Mathe (relativ) unabhaengig vom Studienfach
 Programmier_Interesse <- function(){
   Programmier_interesse <- rep(0, 100)
   for(i in 1:100){
@@ -46,8 +59,10 @@ Programmier_Interesse <- function(){
   }
   return(Programmier_interesse)
 }
+
 programmier_interesse <- Programmier_Interesse()
 
+# Mathe-LK: abhaengig vom Interesse an Mathe
 LK_in_Mathe <- function(){
   LK_in_mathe <- rep(0, 100)
   for(i in 1:100){
@@ -63,11 +78,10 @@ LK_in_Mathe <- function(){
   }
   return(LK_in_mathe)
 }
+
 LK_in_mathe <- LK_in_Mathe()
 
-ID <- 1:100
-
-
+# Datensatz zusammenfuegen:
 datensatz <- data.frame("ID" = ID,        
                         "Alter" = Alter, 
                         "Studienfach" = Studienfach, 
