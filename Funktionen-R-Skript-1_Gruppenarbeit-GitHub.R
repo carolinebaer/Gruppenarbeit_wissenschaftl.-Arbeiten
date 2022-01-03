@@ -28,13 +28,15 @@
 #berechnet und ausgibt
 
 #verhältniss Alter(matrisch) und Mathe-LK(dichotrom)
-AlterMAtheLK<- function(){
+AlterMatheLK<- function(){
     #anzeigen:
-    boxplot(Alter~Studienfach, daten, main= "Altersstruktur innerhalb der Studiengänge")
+    boxplot(Alter~Studienfach, daten, 
+            main= "Altersstruktur innerhalb der Studiengaenge")
   
     #abspeichern:
     pdf("VergleichAlterMatheLK.pdf")
-    boxplot(Alter~Studienfach, daten, main= "Altersstruktur innerhalb der Studiengänge")
+    boxplot(Alter~Studienfach, daten, 
+            main= "Altersstruktur innerhalb der Studiengaenge")
     dev.off()
 }
 
@@ -42,7 +44,7 @@ AlterMAtheLK<- function(){
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
-#interesse an Mathe
+#Interesse an Mathe
 umcodieren<- function(daten){
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
@@ -70,20 +72,22 @@ umcodieren<- function(daten){
 
 
 #_______________________________________________________________________________
-# Eine Funktion, die eine katrgorielle und eine dichotrome Variable vergleichen
-# erstellen von Unterdatensätze:
+# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleichen
+
 
 function(daten){
-      MatheLK<-subset(daten, LK_in_Mathe== "ja")
-      NichtMatheLK<- subset(daten, LK_in_Mathe== "nein")
-
-      #welche Studiengänge vorhanden:
-      unique(daten$Studienfach)
-      #[1] "Data Science" "Statistik"    "Informatik"   "Mathe"  
+      # #welche Studiengaenge vorhanden:
+      # unique(daten$Studienfach)
+      # #[1] "Data Science" "Statistik"    "Informatik"   "Mathe" 
+  #Caro: ist doch eig. schon vorgegeben, dass es nur diese Faecher gibt, oder?
 
       pdf("VergleichStudienfachMatheLK.pdf")
-      studienfach<-matrix(c(table(MatheLK$Studienfach), table(NichtMatheLK$Studienfach)), nrow= 2, byrow= T)
-      barplot((studienfach), beside=TRUE, ylim= c(0,25), col = c("red", "blue"), names.arg= c("Data Science","Informatik", "Mathe","Statistik"), main= "Aufteilung nach Studienfach und BElegung des Mathe-LK", xlab= "Studienfach", ylab= "Absolute Häufigkeit")
+      studienfach<-matrix(c(table(MatheLK$Studienfach), 
+                            table(NichtMatheLK$Studienfach)), nrow= 2, byrow= T)
+      barplot((studienfach), beside=TRUE, ylim= c(0,25), col = c("red", "blue"), 
+              names.arg= c("Data Science","Informatik", "Mathe","Statistik"), 
+              main= "Aufteilung nach Studienfach und Belegung des Mathe-LK", 
+              xlab= "Studienfach", ylab= "Absolute Haeufigkeit")
       legend("top", fill = c("red", "blue"), box.lty=0, c("ja", "nein"))
       dev.off()
 }

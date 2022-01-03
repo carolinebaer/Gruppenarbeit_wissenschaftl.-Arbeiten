@@ -11,4 +11,13 @@
 #koennt ihr dafuer eine so genannte Hilfsfunktion schreiben, die ihr dann 
 #innerhalb der eigentlichen Funktionen immer wieder verwenden könnt. Diese 
 #Hilfsfunktionen sollen in ein extra R-Script geschrieben werden.
+#_______________________________________________________________________________
+# erstellen von Unterdatensaetzen:
+MatheLK <- subset(daten, LK_in_Mathe == "ja")
+NichtMatheLK <- subset(daten, LK_in_Mathe == "nein")
+
+Statistiker <- subset(daten, Studienfach == "Statistik")
+Data_Scientists <- subset(daten, Studienfach =="Data Science")
+Mathematiker <- subset(daten, Studienfach == "Mathe")
+Informatiker <- subset(daten, Studienfach == "Informatik")
 
