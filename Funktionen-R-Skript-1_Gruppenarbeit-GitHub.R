@@ -68,7 +68,15 @@ lk <- function(){
 #(c) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
 #den Zusammenhang zwischen zwei kategorialen Variablen berechnet ausgibt
 
+# Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen nicht geht:
 
+zsmhang <- function(){
+  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), c(table(NichtMatheLK$Studienfach)))
+  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
+  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+  
+  return(Zusammenhang)
+}
 
 #_______________________________________________________________________________
 #(d) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
