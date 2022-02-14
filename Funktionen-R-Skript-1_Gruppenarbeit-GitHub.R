@@ -1,6 +1,6 @@
 ### Gruppenarbeit - wissenschaftliches Arbeiten ###
 ## Funktionen-R-Skript-1 ##
-
+## daten <- read.csv("Datensatz.csv")
 #_______________________________________________________________________________
 #(a) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
 #fuer metrische Variablen berechnet und ausgibt
@@ -47,7 +47,21 @@ interese_progr <- function(){
 #fuer kategoriale Variablen berechnet und ausgibt
 
 
+studienfach <- function(){
+  Modalwert <- sort(table(daten$Studienfach))[4]
+  Range <- length(unique(daten$Studienfach)) # Anzahl der verschiedenen Auspraegungen der Variable
+  
+  uebersicht_studienfach <- list("Modalwert" = Modalwert, "Range" = Range)
+  return(uebersicht_studienfach)
+}
 
+lk <- function(){
+  Modalwert <- sort(table(daten$LK_in_Mathe))[2]
+  Range <- length(unique(daten$LK_in_Mathe)) # Anzahl der verschiedenen Auspraegungen der Variable
+  
+  uebersicht_lk <- list("Modalwert" = Modalwert, "Range" = Range)
+  return(uebersicht_lk)
+}
 
 
 #_______________________________________________________________________________
@@ -128,6 +142,3 @@ function(daten){
 #_______________________________________________________________________________
 #Freiwillig: weitere zur Deskription und Visualisierung geeignete 
 #Funktionen
-
-
-
