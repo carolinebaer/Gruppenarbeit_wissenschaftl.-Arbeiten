@@ -5,42 +5,17 @@
 #(a) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
 #fuer metrische Variablen berechnet und ausgibt
 
-interese_mathe <- function(){
-  Mittelwert <- mean(daten$Mathematik_Interesse)
-  Median <- median(daten$Mathematik_Interesse)
-  Varianz <- var(daten$Mathematik_Interesse)
-  Standardabweichung <- sd(daten$Mathematik_Interesse)
-  Quantil <- quantile(daten$Mathematik_Interesse)
-  Minimum <- min(daten$Mathematik_Interesse)
-  Maximum <- max(daten$Mathematik_Interesse)
-  Spannweite <- Maximum - Minimum
-  Interquartilsabstand <- IQR(daten$Mathematik_Interesse)
-  
-  uebersicht_interesse_mathe <- list("Mittelwert" = Mittelwert, "Median" = Median,
-          "Varianz" = Varianz, "Standardabweichung" = Standardabweichung,
-          "Quantil" = Quantil, "Minimum" = Minimum, "Maximum" = Maximum,
-          "Spannweite" = Spannweite, "Interquartilsabstand" = Interquartilsabstand)
-  return(uebersicht_interesse_mathe)
+interesse_mathe <- function(){
+  Lage_und_Streuung(daten$Mathematik_Interesse)
 }
 
-interese_progr <- function(){
-  Mittelwert <- mean(daten$Programmier_Interesse)
-  Median <- median(daten$Programmier_Interesse)
-  Varianz <- var(daten$Programmier_Interesse)
-  Standardabweichung <- sd(daten$Programmier_Interesse)
-  Quantil <- quantile(daten$Programmier_Interesse)
-  Minimum <- min(daten$Programmier_Interesse)
-  Maximum <- max(daten$Programmier_Interesse)
-  Spannweite <- Maximum - Minimum
-  Interquartilsabstand <- IQR(daten$Programmier_Interesse)
-  
-  uebersicht_interesse_progr <- list("Mittelwert" = Mittelwert, "Median" = Median,
-                                     "Varianz" = Varianz, "Standardabweichung" = Standardabweichung,
-                                     "Quantil" = Quantil, "Minimum" = Minimum, "Maximum" = Maximum,
-                                     "Spannweite" = Spannweite, "Interquartilsabstand" = Interquartilsabstand)
-  return(uebersicht_interesse_progr)
+interesse_progr <- function(){
+  Lage_und_Streuung(daten$Programmier_Interesse)
 }
 
+alter <- function(){
+  Lage_und_Streuung(daten$Alter)
+}
 
 #_______________________________________________________________________________
 #(b) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
