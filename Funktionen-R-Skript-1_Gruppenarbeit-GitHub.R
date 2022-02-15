@@ -5,16 +5,30 @@
 #(a) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
 #fuer metrische Variablen berechnet und ausgibt
 
-interesse_mathe <- function(){
-  Lage_und_Streuung(daten$Mathematik_Interesse)
-}
-
-interesse_progr <- function(){
-  Lage_und_Streuung(daten$Programmier_Interesse)
-}
-
-alter <- function(){
-  Lage_und_Streuung(daten$Alter)
+# Funktion fuer Lage- und Streuungsmasse von metrischen Variablen:
+Lage_und_Streuung <- function(variable){
+  # Lagemasse:
+  Mittelwert <- mean(variable)
+  Median <- median(variable)
+  Minimum <- min(variable)
+  Maximum <- max(variable)
+  Quantile <- quantile(variable)
+  
+  # Streuungsmasse:
+  Varianz <- var(variable)
+  Standardabweichung <- sd(variable)
+  Spannweite <- Maximum - Minimum
+  Interquartilsabstand <- IQR(variable)
+  
+  # zu Liste zusammenfuegen:
+  Zusammenfassung <- list("Mittelwert" = Mittelwert, 
+                          "Median" = Median, 
+                          "Minimum" = Minimum, "Maximum" = Maximum, 
+                          "Quantile" = Quantile, "Varianz" = Varianz, 
+                          "Standardabweichung" = Standardabweichung,
+                          "Spannweite" = Spannweite, 
+                          "Interquartilsabstand" = Interquartilsabstand)
+  return(Zusammenfassung)
 }
 
 #_______________________________________________________________________________

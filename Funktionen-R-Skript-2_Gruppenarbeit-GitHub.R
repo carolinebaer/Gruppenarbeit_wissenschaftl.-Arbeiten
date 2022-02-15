@@ -21,29 +21,3 @@ Data_Scientists <- subset(daten, Studienfach =="Data Science")
 Mathematiker <- subset(daten, Studienfach == "Mathe")
 Informatiker <- subset(daten, Studienfach == "Informatik")
 
-
-# Hilfsfunktion fuer deskriptive Statistiken in a):
-Lage_und_Streuung <- function(variable){
-  # Lagemasse:
-  Mittelwert <- mean(variable)
-  Median <- median(variable)
-  Minimum <- min(variable)
-  Maximum <- max(variable)
-  Quantile <- quantile(variable)
- 
-  # Streuungsmasse:
-  Varianz <- var(variable)
-  Standardabweichung <- sd(variable)
-  Spannweite <- Maximum - Minimum
-  Interquartilsabstand <- IQR(variable)
- 
-  # zu Liste zusammenfuegen:
-  Zusammenfassung <- list("Mittelwert" = Mittelwert, 
-                          "Median" = Median, 
-                          "Minimum" = Minimum, "Maximum" = Maximum, 
-                          "Quantile" = Quantile, "Varianz" = Varianz, 
-                          "Standardabweichung" = Standardabweichung,
-                          "Spannweite" = Spannweite, 
-                          "Interquartilsabstand" = Interquartilsabstand)
-  return(Zusammenfassung)
-}
