@@ -35,23 +35,15 @@ Lage_und_Streuung <- function(variable){
 #(b) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
 #fuer kategoriale Variablen berechnet und ausgibt
 
-
-studienfach <- function(){
-  Modalwert <- sort(table(daten$Studienfach))[4]
-  Range <- length(unique(daten$Studienfach)) # Anzahl der verschiedenen Auspraegungen der Variable
+desk_stat_k <- function(variable){
+  Modalwert <- sort(table(variable))[length(table(variable))]
+  Range <- length(unique(variable))
   
-  uebersicht_studienfach <- list("Modalwert" = Modalwert, "Range" = Range)
-  return(uebersicht_studienfach)
-}
-
-lk <- function(){
-  Modalwert <- sort(table(daten$LK_in_Mathe))[2]
-  Range <- length(unique(daten$LK_in_Mathe)) # Anzahl der verschiedenen Auspraegungen der Variable
+  # zu Liste Zusammenfassen
+  Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range)
   
-  uebersicht_lk <- list("Modalwert" = Modalwert, "Range" = Range)
-  return(uebersicht_lk)
+  return(Zusammenfassung)
 }
-
 
 #_______________________________________________________________________________
 #(c) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
