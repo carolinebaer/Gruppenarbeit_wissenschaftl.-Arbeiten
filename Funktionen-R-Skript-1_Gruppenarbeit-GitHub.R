@@ -51,8 +51,17 @@ desk_stat_k <- function(variable){
 
 # Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen nicht geht:
 
-zsmhang <- function(){
-  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), c(table(NichtMatheLK$Studienfach)))
+#zsmhang <- function(){
+#  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), c(table(NichtMatheLK$Studienfach)))
+#  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
+#  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+#  
+#  return(Zusammenhang)
+#}
+
+#hier wären die beiden Gruppen schon frei wählbar die untersuchende Var jedoch nicht
+zsmhang <- function(gruppeEins, gruppeZwei){
+  Zusammenhang <- data.frame(c(table(gruppeEins$Studienfach)), c(table(gruppeZwei$Studienfach)))
   rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
   colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
   
@@ -65,17 +74,31 @@ zsmhang <- function(){
 #berechnet und ausgibt
 
 #verhältniss Alter(matrisch) und Mathe-LK(dichotrom)
-AlterMatheLK<- function(){
+#AlterMatheLK<- function(){
     #anzeigen:
-    boxplot(Alter~Studienfach, daten, 
-            main= "Altersstruktur innerhalb der Studiengaenge")
+#    boxplot(Alter~Studienfach, daten, 
+#            main= "Altersstruktur innerhalb der Studiengaenge")
+#
+#    #abspeichern:
+#    pdf("VergleichAlterMatheLK.pdf")
+#    boxplot(Alter~Studienfach, daten, 
+#            main= "Altersstruktur innerhalb der Studiengaenge")
+#    dev.off()
+#}
+
+MetrischDichtotrom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaletenname entspricht VarEins bzw. VarZwei
+  {
+  #anzeigen:
+  boxplot(VarEins~VarZwei, daten, 
+          main= "Altersstruktur innerhalb der Studiengaenge")
   
-    #abspeichern:
-    pdf("VergleichAlterMatheLK.pdf")
-    boxplot(Alter~Studienfach, daten, 
-            main= "Altersstruktur innerhalb der Studiengaenge")
-    dev.off()
+  #abspeichern:
+  pdf("MetrischDichotrom.pdf")
+  boxplot(VarEins~VarZwei, daten, 
+          main= "Altersstruktur innerhalb der Studiengaenge")
+  dev.off()
 }
+
 
 #_______________________________________________________________________________
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
