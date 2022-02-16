@@ -49,19 +49,23 @@ desk_stat_k <- function(variable){
 #(c) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
 #den Zusammenhang zwischen zwei kategorialen Variablen berechnet ausgibt
 
-# Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen nicht geht:
+# Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen 
+# nicht geht:
 
 #zsmhang <- function(){
-#  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), c(table(NichtMatheLK$Studienfach)))
+#  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), 
+#                      c(table(NichtMatheLK$Studienfach)))
 #  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
 #  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
 #  
 #  return(Zusammenhang)
 #}
 
-#hier wären die beiden Gruppen schon frei wählbar die untersuchende Var jedoch nicht
+#hier waeren die beiden Gruppen schon frei waehlbar die untersuchende Var jedoch 
+# nicht
 zsmhang <- function(gruppeEins, gruppeZwei){
-  Zusammenhang <- data.frame(c(table(gruppeEins$Studienfach)), c(table(gruppeZwei$Studienfach)))
+  Zusammenhang <- data.frame(c(table(gruppeEins$Studienfach)), 
+                             c(table(gruppeZwei$Studienfach)))
   rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
   colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
   
@@ -86,7 +90,8 @@ zsmhang <- function(gruppeEins, gruppeZwei){
 #    dev.off()
 #}
 
-MetrischDichtotrom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaletenname entspricht VarEins bzw. VarZwei
+MetrischDichtotrom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname 
+                                       # entspricht VarEins bzw. VarZwei
   {
   #anzeigen:
   boxplot(VarEins~VarZwei, daten, 
