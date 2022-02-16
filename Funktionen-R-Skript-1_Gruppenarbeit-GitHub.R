@@ -45,6 +45,17 @@ desk_stat_k <- function(variable){
   return(Zusammenfassung)
 }
 
+
+#auch fuer nominale variablen:
+desk_stat_nom <- function(variable){
+  entropie_vec <- table(variable)
+  n <- length(entropie_vec)
+  rel_hfgk <- entropie_vec / length(variable)
+  Entropie <- sum(rel_hfgk * log(1/rel_hfgk))
+  norm_Entropie <- Entropie / log(n)
+  return("normierte Entropie" = norm_Entropie)
+}
+
 #_______________________________________________________________________________
 #(c) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
 #den Zusammenhang zwischen zwei kategorialen Variablen berechnet ausgibt
@@ -77,7 +88,7 @@ zsmhang <- function(gruppeEins, gruppeZwei){
 #den Zusammengang zwischen einer metrischen und einer dichotomen Variablen 
 #berechnet und ausgibt
 
-#verhältniss Alter(matrisch) und Mathe-LK(dichotrom)
+#verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
 #AlterMatheLK<- function(){
     #anzeigen:
 #    boxplot(Alter~Studienfach, daten, 
@@ -90,7 +101,7 @@ zsmhang <- function(gruppeEins, gruppeZwei){
 #    dev.off()
 #}
 
-MetrischDichtotrom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname 
+MetrischDichotom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname 
                                        # entspricht VarEins bzw. VarZwei
   {
   #anzeigen:
@@ -98,7 +109,7 @@ MetrischDichtotrom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname
           main= "Altersstruktur innerhalb der Studiengaenge")
   
   #abspeichern:
-  pdf("MetrischDichotrom.pdf")
+  pdf("MetrischDichotom.pdf")
   boxplot(VarEins~VarZwei, daten, 
           main= "Altersstruktur innerhalb der Studiengaenge")
   dev.off()
@@ -118,7 +129,6 @@ umcodieren<- function(daten){
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
-
 
   daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
   daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
@@ -151,7 +161,7 @@ mosaic <- function(var1, var2, var3){
 
 
 #_______________________________________________________________________________
-# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleichen
+# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleicht
 
 
 function(daten){
