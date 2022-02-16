@@ -64,8 +64,6 @@ desk_stat_k <- function(variable){
 #  return(Zusammenhang)
 #}
 
-#hier waeren die beiden Gruppen schon frei waehlbar die untersuchende Var jedoch 
-# nicht
 zsmhang <- function(GruppeEins, GruppeZwei){
   
   Zusammenhang <- table(GruppeEins, GruppeZwei)
