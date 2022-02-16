@@ -36,7 +36,10 @@ Lage_und_Streuung <- function(variable){
 #fuer kategoriale Variablen berechnet und ausgibt
 
 desk_stat_k <- function(variable){
+  #Lagemass:
   Modalwert <- sort(table(variable))[length(table(variable))]
+  
+  #Streuungsmass:
   Range <- length(unique(variable))
   
   # zu Liste Zusammenfassen
@@ -61,13 +64,9 @@ desk_stat_k <- function(variable){
 #  return(Zusammenhang)
 #}
 
-#hier waeren die beiden Gruppen schon frei waehlbar die untersuchende Var jedoch 
-# nicht
-zsmhang <- function(gruppeEins, gruppeZwei){
-  Zusammenhang <- data.frame(c(table(gruppeEins$Studienfach)), 
-                             c(table(gruppeZwei$Studienfach)))
-  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
-  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+zsmhang <- function(GruppeEins, GruppeZwei){
+  
+  Zusammenhang <- table(GruppeEins, GruppeZwei)
   
   return(Zusammenhang)
 }
