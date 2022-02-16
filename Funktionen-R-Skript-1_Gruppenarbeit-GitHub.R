@@ -113,7 +113,19 @@ umcodieren<- function(daten){
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
 #kategorialen Variablen erstellt
 
+# Idee: Mosaikplot fuer 3 kategoriale Variablen:
+# anbieten wuerde sich z.B. 
+# var1: Studienfach, var2: Mathe-LK (ja/nein), var3: Interesse an Mathe/Programmieren
 
+mosaic <- function(var1, var2, var3){
+  x <- table(var1, var2, var3)
+  mosaicplot(x, col = TRUE,
+             main = paste("Zusammenhang zwischen", deparse1(substitute(var1)), 
+                          ",", deparse1(substitute(var2)), "und", deparse1(substitute(var3))), 
+             xlab = paste(deparse1(substitute(var1)), "unterteilt nach", 
+                          deparse1(substitute(var3))) , 
+             ylab = deparse1(substitute(var2)))
+}
 
 
 #_______________________________________________________________________________
