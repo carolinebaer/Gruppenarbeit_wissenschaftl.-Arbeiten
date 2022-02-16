@@ -36,13 +36,27 @@ Lage_und_Streuung <- function(variable){
 #fuer kategoriale Variablen berechnet und ausgibt
 
 desk_stat_k <- function(variable){
+  #Lagemass:
   Modalwert <- sort(table(variable))[length(table(variable))]
+  
+  #Streuungsmass:
   Range <- length(unique(variable))
   
   # zu Liste Zusammenfassen
   Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range)
   
   return(Zusammenfassung)
+}
+
+
+#auch fuer nominale variablen:
+desk_stat_nom <- function(variable){
+  entropie_vec <- table(variable)
+  n <- length(entropie_vec)
+  rel_hfgk <- entropie_vec / length(variable)
+  Entropie <- sum(rel_hfgk * log(1/rel_hfgk))
+  norm_Entropie <- Entropie / log(n)
+  return("normierte Entropie" = norm_Entropie)
 }
 
 #_______________________________________________________________________________
@@ -61,13 +75,9 @@ desk_stat_k <- function(variable){
 #  return(Zusammenhang)
 #}
 
-#hier waeren die beiden Gruppen schon frei waehlbar die untersuchende Var jedoch 
-# nicht
-zsmhang <- function(gruppeEins, gruppeZwei){
-  Zusammenhang <- data.frame(c(table(gruppeEins$Studienfach)), 
-                             c(table(gruppeZwei$Studienfach)))
-  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
-  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+zsmhang <- function(GruppeEins, GruppeZwei){
+  
+  Zusammenhang <- table(GruppeEins, GruppeZwei)
   
   return(Zusammenhang)
 }
@@ -77,7 +87,7 @@ zsmhang <- function(gruppeEins, gruppeZwei){
 #den Zusammengang zwischen einer metrischen und einer dichotomen Variablen 
 #berechnet und ausgibt
 
-#verhältniss Alter(matrisch) und Mathe-LK(dichotrom)
+#verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
 #AlterMatheLK<- function(){
     #anzeigen:
 #    boxplot(Alter~Studienfach, daten, 
@@ -90,7 +100,7 @@ zsmhang <- function(gruppeEins, gruppeZwei){
 #    dev.off()
 #}
 
-MetrischDichtotrom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname 
+MetrischDichotom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname 
                                        # entspricht VarEins bzw. VarZwei
   {
   #anzeigen:
@@ -98,7 +108,7 @@ MetrischDichtotrom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname
           main= "Altersstruktur innerhalb der Studiengaenge")
   
   #abspeichern:
-  pdf("MetrischDichotrom.pdf")
+  pdf("MetrischDichotom.pdf")
   boxplot(VarEins~VarZwei, daten, 
           main= "Altersstruktur innerhalb der Studiengaenge")
   dev.off()
@@ -119,7 +129,6 @@ umcodieren<- function(daten){
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
 
-
   daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
   daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
   daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
@@ -133,11 +142,25 @@ umcodieren<- function(daten){
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
 #kategorialen Variablen erstellt
 
+# Idee: Mosaikplot fuer 3 kategoriale Variablen:
+# anbieten wuerde sich z.B. 
+# var1: Studienfach, var2: Mathe-LK (ja/nein), var3: Interesse an 
+#  Mathe/Programmieren
 
+mosaic <- function(var1, var2, var3){
+  x <- table(var1, var2, var3)
+  mosaicplot(x, col = TRUE,
+             main = paste("Zusammenhang zwischen", deparse1(substitute(var1)), 
+                          ",", deparse1(substitute(var2)), "und", 
+                          deparse1(substitute(var3))), 
+             xlab = paste(deparse1(substitute(var1)), "unterteilt nach", 
+                          deparse1(substitute(var3))) , 
+             ylab = deparse1(substitute(var2)))
+}
 
 
 #_______________________________________________________________________________
-# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleichen
+# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleicht
 
 
 function(daten){
