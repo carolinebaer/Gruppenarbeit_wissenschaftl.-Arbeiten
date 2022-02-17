@@ -56,7 +56,7 @@ desk_stat_nom <- function(variable){
   rel_hfgk <- entropie_vec / length(variable)
   Entropie <- sum(rel_hfgk * log(1/rel_hfgk))
   norm_Entropie <- Entropie / log(n)
-  return("normierte Entropie" = norm_Entropie)
+  return(c("normierte Entropie" = norm_Entropie))
 }
 
 #_______________________________________________________________________________
@@ -75,9 +75,9 @@ desk_stat_nom <- function(variable){
 #  return(Zusammenhang)
 #}
 
-zsmhang <- function(GruppeEins, GruppeZwei){
+zsmhang <- function(GruppeEins, GruppeZwei, names = c("GruppeEins", "GruppeZwei")){
   
-  Zusammenhang <- table(GruppeEins, GruppeZwei)
+  Zusammenhang <- table(GruppeEins, GruppeZwei, dnn = names)
   
   return(Zusammenhang)
 }
@@ -86,9 +86,10 @@ zsmhang <- function(GruppeEins, GruppeZwei){
 #(d) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
 #den Zusammengang zwischen einer metrischen und einer dichotomen Variablen 
 #berechnet und ausgibt
+
 #verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
 #AlterMatheLK<- function(){
-    #anzeigen:
+#anzeigen:
 
 #    boxplot(Alter~Studienfach, daten, 
 #            main= "Altersstruktur innerhalb der Studiengaenge")
@@ -100,27 +101,34 @@ zsmhang <- function(GruppeEins, GruppeZwei){
 #    dev.off()
 #}
 
-MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spaltenname 
-                                       # entspricht VarEins bzw. VarZwei
-                                       # Titel muss auch Variabel sein
-  {
+MetrischDichotom<- function(VarMetrisch, VarDichotom) #eingabe mit Tabelle$Spaltenname 
+{
   #anzeigen:
-  boxplot(VarEins~VarZwei, daten, 
-          main= main)
+  boxplot(VarMetrisch~VarDichotom, daten, 
+          main= paste("Boxplot: Zusammenhang zwischen", 
+                      deparse1(substitute(VarMetrisch)), 
+                      "und", deparse1(substitute(VarDichotom))),
+          xlab = deparse1(substitute(VarDichotom)),
+          ylab = deparse1(substitute(VarMetrisch)))
   
   #abspeichern:
   pdf("MetrischDichotom.pdf")
-  boxplot(VarEins~VarZwei, daten, 
-          main= main)
+  boxplot(VarMetrisch~VarDichotom, daten, 
+          main = paste("Boxplot: Zusammenhang zwischen", 
+                       deparse1(substitute(VarMetrisch)), 
+                       "und", deparse1(substitute(VarDichotom))),
+          xlab = deparse1(substitute(VarDichotom)),
+          ylab = deparse1(substitute(VarMetrisch)))
   dev.off()
-}
 
+}
 
 #_______________________________________________________________________________
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
 #Interesse an Mathe
+
 # umcodieren<- function(daten){
 #   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
 #   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
@@ -144,23 +152,24 @@ umkodieren <- function(Variable){
     Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
     Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
     Varibale[Variable == c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
-      } else 
-  if(max(range(Variable)) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
-    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
-    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
-    # ich wei? nicht warum aber wenn es h?ndisch ausprobiere kommen bei mir als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich den Doppelpunkt dazwischen setzte
-    # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, max(range(Variable))/3 +1 = 4+2/3 
-    # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist jedoch dann 4.666667 7.000000
-    #oder habe ich gerade hier einen Gro?en Denkfehler, freue mich auf eure Anregungen
-    
-    Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
-    Varibale[Variable == max(Variable)] <- "sehr hoch"
-     } else {                   # wenn der Rest der Division durch drei 2 ist  
-    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
-    Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
-    Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
-        }
+  } else 
+    if(max(range(Variable)) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
+      Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+      Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+      # ich wei� nicht warum aber wenn es h�ndisch ausprobiere kommen bei mir als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich den Doppelpunkt dazwischen setzte
+      # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, max(range(Variable))/3 +1 = 4+2/3 
+      # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist jedoch dann 4.666667 7.000000
+      #oder habe ich gerade hier einen Gro�en Denkfehler, freue mich auf eure Anregungen
+      
+      Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
+      Varibale[Variable == max(Variable)] <- "sehr hoch"
+    } else {                   # wenn der Rest der Division durch drei 2 ist  
+      Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+      Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+      Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
+      Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
+    }
+  
 }
 # ich bin mir nicht sicher ob da so richtig ist
 
