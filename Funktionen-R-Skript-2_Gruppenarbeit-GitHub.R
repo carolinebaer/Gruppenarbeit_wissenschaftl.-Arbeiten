@@ -20,4 +20,3 @@ Statistiker <- subset(daten, Studienfach == "Statistik")
 Data_Scientists <- subset(daten, Studienfach =="Data Science")
 Mathematiker <- subset(daten, Studienfach == "Mathe")
 Informatiker <- subset(daten, Studienfach == "Informatik")
-

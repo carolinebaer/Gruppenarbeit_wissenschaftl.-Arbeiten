@@ -5,75 +5,79 @@
 #(a) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
 #fuer metrische Variablen berechnet und ausgibt
 
-interese_mathe <- function(){
-  Mittelwert <- mean(daten$Mathematik_Interesse)
-  Median <- median(daten$Mathematik_Interesse)
-  Varianz <- var(daten$Mathematik_Interesse)
-  Standardabweichung <- sd(daten$Mathematik_Interesse)
-  Quantil <- quantile(daten$Mathematik_Interesse)
-  Minimum <- min(daten$Mathematik_Interesse)
-  Maximum <- max(daten$Mathematik_Interesse)
-  Spannweite <- Maximum - Minimum
-  Interquartilsabstand <- IQR(daten$Mathematik_Interesse)
+# Funktion fuer Lage- und Streuungsmasse von metrischen Variablen:
+Lage_und_Streuung <- function(variable){
+  # Lagemasse:
+  Mittelwert <- mean(variable)
+  Median <- median(variable)
+  Minimum <- min(variable)
+  Maximum <- max(variable)
+  Quantile <- quantile(variable)
   
-  uebersicht_interesse_mathe <- list("Mittelwert" = Mittelwert, "Median" = Median,
-          "Varianz" = Varianz, "Standardabweichung" = Standardabweichung,
-          "Quantil" = Quantil, "Minimum" = Minimum, "Maximum" = Maximum,
-          "Spannweite" = Spannweite, "Interquartilsabstand" = Interquartilsabstand)
-  return(uebersicht_interesse_mathe)
-}
-
-interese_progr <- function(){
-  Mittelwert <- mean(daten$Programmier_Interesse)
-  Median <- median(daten$Programmier_Interesse)
-  Varianz <- var(daten$Programmier_Interesse)
-  Standardabweichung <- sd(daten$Programmier_Interesse)
-  Quantil <- quantile(daten$Programmier_Interesse)
-  Minimum <- min(daten$Programmier_Interesse)
-  Maximum <- max(daten$Programmier_Interesse)
+  # Streuungsmasse:
+  Varianz <- var(variable)
+  Standardabweichung <- sd(variable)
   Spannweite <- Maximum - Minimum
-  Interquartilsabstand <- IQR(daten$Programmier_Interesse)
+  Interquartilsabstand <- IQR(variable)
   
-  uebersicht_interesse_progr <- list("Mittelwert" = Mittelwert, "Median" = Median,
-                                     "Varianz" = Varianz, "Standardabweichung" = Standardabweichung,
-                                     "Quantil" = Quantil, "Minimum" = Minimum, "Maximum" = Maximum,
-                                     "Spannweite" = Spannweite, "Interquartilsabstand" = Interquartilsabstand)
-  return(uebersicht_interesse_progr)
+  # zu Liste zusammenfuegen:
+  Zusammenfassung <- list("Mittelwert" = Mittelwert, 
+                          "Median" = Median, 
+                          "Minimum" = Minimum, "Maximum" = Maximum, 
+                          "Quantile" = Quantile, "Varianz" = Varianz, 
+                          "Standardabweichung" = Standardabweichung,
+                          "Spannweite" = Spannweite, 
+                          "Interquartilsabstand" = Interquartilsabstand)
+  return(Zusammenfassung)
 }
-
 
 #_______________________________________________________________________________
 #(b) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
 #fuer kategoriale Variablen berechnet und ausgibt
 
-
-studienfach <- function(){
-  Modalwert <- sort(table(daten$Studienfach))[4]
-  Range <- length(unique(daten$Studienfach)) # Anzahl der verschiedenen Auspraegungen der Variable
+desk_stat_k <- function(variable){
+  #Lagemass:
+  Modalwert <- sort(table(variable))[length(table(variable))]
   
-  uebersicht_studienfach <- list("Modalwert" = Modalwert, "Range" = Range)
-  return(uebersicht_studienfach)
+  #Streuungsmass:
+  Range <- length(unique(variable))
+  
+  # zu Liste Zusammenfassen
+  Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range)
+  
+  return(Zusammenfassung)
 }
 
-lk <- function(){
-  Modalwert <- sort(table(daten$LK_in_Mathe))[2]
-  Range <- length(unique(daten$LK_in_Mathe)) # Anzahl der verschiedenen Auspraegungen der Variable
-  
-  uebersicht_lk <- list("Modalwert" = Modalwert, "Range" = Range)
-  return(uebersicht_lk)
-}
 
+#auch fuer nominale variablen:
+desk_stat_nom <- function(variable){
+  entropie_vec <- table(variable)
+  n <- length(entropie_vec)
+  rel_hfgk <- entropie_vec / length(variable)
+  Entropie <- sum(rel_hfgk * log(1/rel_hfgk))
+  norm_Entropie <- Entropie / log(n)
+  return("normierte Entropie" = norm_Entropie)
+}
 
 #_______________________________________________________________________________
 #(c) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
 #den Zusammenhang zwischen zwei kategorialen Variablen berechnet ausgibt
 
-# Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen nicht geht:
+# Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen 
+# nicht geht:
 
-zsmhang <- function(){
-  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), c(table(NichtMatheLK$Studienfach)))
-  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
-  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+#zsmhang <- function(){
+#  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), 
+#                      c(table(NichtMatheLK$Studienfach)))
+#  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
+#  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+#  
+#  return(Zusammenhang)
+#}
+
+zsmhang <- function(GruppeEins, GruppeZwei){
+  
+  Zusammenhang <- table(GruppeEins, GruppeZwei)
   
   return(Zusammenhang)
 }
@@ -83,19 +87,10 @@ zsmhang <- function(){
 #den Zusammengang zwischen einer metrischen und einer dichotomen Variablen 
 #berechnet und ausgibt
 
-#verhältniss Alter(matrisch) und Mathe-LK(dichotrom)
-AlterMatheLK<- function(){
+#verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
+#AlterMatheLK<- function(){
     #anzeigen:
-<<<<<<< Updated upstream
-    boxplot(Alter~Studienfach, daten, 
-            main= "Altersstruktur innerhalb der Studiengaenge")
-  
-    #abspeichern:
-    pdf("VergleichAlterMatheLK.pdf")
-    boxplot(Alter~Studienfach, daten, 
-            main= "Altersstruktur innerhalb der Studiengaenge")
-    dev.off()
-=======
+
 #    boxplot(Alter~Studienfach, daten, 
 #            main= "Altersstruktur innerhalb der Studiengaenge")
 #
@@ -108,7 +103,7 @@ AlterMatheLK<- function(){
 
 MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spaltenname 
                                        # entspricht VarEins bzw. VarZwei
-                                       # der main muss ja auch Variabel sein
+                                       # Titel muss auch Variabel sein
   {
   #anzeigen:
   boxplot(VarEins~VarZwei, daten, 
@@ -119,33 +114,16 @@ MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spalten
   boxplot(VarEins~VarZwei, daten, 
           main= main)
   dev.off()
->>>>>>> Stashed changes
+
 }
+
 
 #_______________________________________________________________________________
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
 #Interesse an Mathe
-<<<<<<< Updated upstream
-umcodieren<- function(daten){
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
 
-
-  daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
-=======
 # umcodieren<- function(daten){
 #   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
 #   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
@@ -165,7 +143,7 @@ umcodieren<- function(daten){
 # }
 
 umkodieren <- function(Variable){
-  if(range(Variable) %% 3 == 0){  # wenn die Spannweite der Auspägungen  ohne Rest durch drei teilbar ist
+  if(range(Variable) %% 3 == 0){  # wenn die Spannweite der Auspï¿½gungen  ohne Rest durch drei teilbar ist
     Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
     Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
     Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable))] <- "hoch"
@@ -181,7 +159,7 @@ umkodieren <- function(Variable){
     Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-2)] <- "hoch"
     Varibale[Variable == c(max(Variable)-1 , max(Variable)] <- "sehr hoch"   
         }
->>>>>>> Stashed changes
+
 }
 # ich bin mir nicht sicher ob da so richtig ist
 
@@ -189,11 +167,25 @@ umkodieren <- function(Variable){
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
 #kategorialen Variablen erstellt
 
+# Idee: Mosaikplot fuer 3 kategoriale Variablen:
+# anbieten wuerde sich z.B. 
+# var1: Studienfach, var2: Mathe-LK (ja/nein), var3: Interesse an 
+#  Mathe/Programmieren
 
+mosaic <- function(var1, var2, var3){
+  x <- table(var1, var2, var3)
+  mosaicplot(x, col = TRUE,
+             main = paste("Zusammenhang zwischen", deparse1(substitute(var1)), 
+                          ",", deparse1(substitute(var2)), "und", 
+                          deparse1(substitute(var3))), 
+             xlab = paste(deparse1(substitute(var1)), "unterteilt nach", 
+                          deparse1(substitute(var3))) , 
+             ylab = deparse1(substitute(var2)))
+}
 
 
 #_______________________________________________________________________________
-# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleichen
+# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleicht
 
 
 function(daten){
