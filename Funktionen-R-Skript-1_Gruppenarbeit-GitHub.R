@@ -86,6 +86,7 @@ zsmhang <- function(){
 #verhältniss Alter(matrisch) und Mathe-LK(dichotrom)
 AlterMatheLK<- function(){
     #anzeigen:
+<<<<<<< Updated upstream
     boxplot(Alter~Studienfach, daten, 
             main= "Altersstruktur innerhalb der Studiengaenge")
   
@@ -94,6 +95,31 @@ AlterMatheLK<- function(){
     boxplot(Alter~Studienfach, daten, 
             main= "Altersstruktur innerhalb der Studiengaenge")
     dev.off()
+=======
+#    boxplot(Alter~Studienfach, daten, 
+#            main= "Altersstruktur innerhalb der Studiengaenge")
+#
+#    #abspeichern:
+#    pdf("VergleichAlterMatheLK.pdf")
+#    boxplot(Alter~Studienfach, daten, 
+#            main= "Altersstruktur innerhalb der Studiengaenge")
+#    dev.off()
+#}
+
+MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spaltenname 
+                                       # entspricht VarEins bzw. VarZwei
+                                       # der main muss ja auch Variabel sein
+  {
+  #anzeigen:
+  boxplot(VarEins~VarZwei, daten, 
+          main= main)
+  
+  #abspeichern:
+  pdf("MetrischDichotom.pdf")
+  boxplot(VarEins~VarZwei, daten, 
+          main= main)
+  dev.off()
+>>>>>>> Stashed changes
 }
 
 #_______________________________________________________________________________
@@ -101,6 +127,7 @@ AlterMatheLK<- function(){
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
 #Interesse an Mathe
+<<<<<<< Updated upstream
 umcodieren<- function(daten){
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
@@ -118,7 +145,45 @@ umcodieren<- function(daten){
   daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
   daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
   daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
+=======
+# umcodieren<- function(daten){
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
+# 
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
+# }
+
+umkodieren <- function(Variable){
+  if(range(Variable) %% 3 == 0){  # wenn die Spannweite der Auspägungen  ohne Rest durch drei teilbar ist
+    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
+    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable))] <- "hoch"
+      } else 
+  if(range(Variable) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
+    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
+    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-1)] <- "hoch"
+    Varibale[Variable == max(Variable)] <- "sehr hoch"
+     } else {                   # wenn der Rest der Division durch drei 2 ist  
+    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
+    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-2)] <- "hoch"
+    Varibale[Variable == c(max(Variable)-1 , max(Variable)] <- "sehr hoch"   
+        }
+>>>>>>> Stashed changes
 }
+# ich bin mir nicht sicher ob da so richtig ist
 
 #_______________________________________________________________________________
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
