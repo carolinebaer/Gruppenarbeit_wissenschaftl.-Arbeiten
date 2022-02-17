@@ -35,34 +35,49 @@ Lage_und_Streuung <- function(variable){
 #(b) Eine Funktion, die verschiedene geeignete deskriptive Statistiken 
 #fuer kategoriale Variablen berechnet und ausgibt
 
-
-studienfach <- function(){
-  Modalwert <- sort(table(daten$Studienfach))[4]
-  Range <- length(unique(daten$Studienfach)) # Anzahl der verschiedenen Auspraegungen der Variable
+desk_stat_k <- function(variable){
+  #Lagemass:
+  Modalwert <- sort(table(variable))[length(table(variable))]
   
-  uebersicht_studienfach <- list("Modalwert" = Modalwert, "Range" = Range)
-  return(uebersicht_studienfach)
+  #Streuungsmass:
+  Range <- length(unique(variable))
+  
+  # zu Liste Zusammenfassen
+  Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range)
+  
+  return(Zusammenfassung)
 }
 
-lk <- function(){
-  Modalwert <- sort(table(daten$LK_in_Mathe))[2]
-  Range <- length(unique(daten$LK_in_Mathe)) # Anzahl der verschiedenen Auspraegungen der Variable
-  
-  uebersicht_lk <- list("Modalwert" = Modalwert, "Range" = Range)
-  return(uebersicht_lk)
-}
 
+#auch fuer nominale variablen:
+desk_stat_nom <- function(variable){
+  entropie_vec <- table(variable)
+  n <- length(entropie_vec)
+  rel_hfgk <- entropie_vec / length(variable)
+  Entropie <- sum(rel_hfgk * log(1/rel_hfgk))
+  norm_Entropie <- Entropie / log(n)
+  return("normierte Entropie" = norm_Entropie)
+}
 
 #_______________________________________________________________________________
 #(c) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
 #den Zusammenhang zwischen zwei kategorialen Variablen berechnet ausgibt
 
-# Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen nicht geht:
+# Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen 
+# nicht geht:
 
-zsmhang <- function(){
-  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), c(table(NichtMatheLK$Studienfach)))
-  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
-  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+#zsmhang <- function(){
+#  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), 
+#                      c(table(NichtMatheLK$Studienfach)))
+#  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
+#  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
+#  
+#  return(Zusammenhang)
+#}
+
+zsmhang <- function(GruppeEins, GruppeZwei){
+  
+  Zusammenhang <- table(GruppeEins, GruppeZwei)
   
   return(Zusammenhang)
 }
@@ -71,43 +86,83 @@ zsmhang <- function(){
 #(d) Eine Funktion, die geeignete deskriptive bivariate Statistiken fuer 
 #den Zusammengang zwischen einer metrischen und einer dichotomen Variablen 
 #berechnet und ausgibt
+#verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
+#AlterMatheLK<- function(){
+    #anzeigen:
 
-#verh�ltniss Alter(matrisch) und Mathe-LK(dichotrom)
-AlterMatheLK<- function(){
+#    boxplot(Alter~Studienfach, daten, 
+#            main= "Altersstruktur innerhalb der Studiengaenge")
+#
+#    #abspeichern:
+#    pdf("VergleichAlterMatheLK.pdf")
+#    boxplot(Alter~Studienfach, daten, 
+#            main= "Altersstruktur innerhalb der Studiengaenge")
+#    dev.off()
+#}
+
+MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spaltenname 
+                                       # entspricht VarEins bzw. VarZwei
+                                       # Titel muss auch Variabel sein
+  {
   #anzeigen:
-  boxplot(Alter~Studienfach, daten, 
-          main= "Altersstruktur innerhalb der Studiengaenge")
+  boxplot(VarEins~VarZwei, daten, 
+          main= main)
   
   #abspeichern:
-  pdf("VergleichAlterMatheLK.pdf")
-  boxplot(Alter~Studienfach, daten, 
-          main= "Altersstruktur innerhalb der Studiengaenge")
+  pdf("MetrischDichotom.pdf")
+  boxplot(VarEins~VarZwei, daten, 
+          main= main)
   dev.off()
 }
+
 
 #_______________________________________________________________________________
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
 #Interesse an Mathe
-umcodieren<- function(daten){
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
-  
-  
-  daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
+# umcodieren<- function(daten){
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
+# 
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
+# }
+
+umkodieren <- function(Variable){
+  if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  ohne Rest durch drei teilbar ist
+    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
+    Varibale[Variable == c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
+      } else 
+  if(max(range(Variable)) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
+    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+    # ich wei? nicht warum aber wenn es h?ndisch ausprobiere kommen bei mir als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich den Doppelpunkt dazwischen setzte
+    # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, max(range(Variable))/3 +1 = 4+2/3 
+    # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist jedoch dann 4.666667 7.000000
+    #oder habe ich gerade hier einen Gro?en Denkfehler, freue mich auf eure Anregungen
+    
+    Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
+    Varibale[Variable == max(Variable)] <- "sehr hoch"
+     } else {                   # wenn der Rest der Division durch drei 2 ist  
+    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+    Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
+    Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
+        }
 }
+# ich bin mir nicht sicher ob da so richtig ist
 
 #_______________________________________________________________________________
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
@@ -115,13 +170,15 @@ umcodieren<- function(daten){
 
 # Idee: Mosaikplot fuer 3 kategoriale Variablen:
 # anbieten wuerde sich z.B. 
-# var1: Studienfach, var2: Mathe-LK (ja/nein), var3: Interesse an Mathe/Programmieren
+# var1: Studienfach, var2: Mathe-LK (ja/nein), var3: Interesse an 
+#  Mathe/Programmieren
 
 mosaic <- function(var1, var2, var3){
   x <- table(var1, var2, var3)
   mosaicplot(x, col = TRUE,
              main = paste("Zusammenhang zwischen", deparse1(substitute(var1)), 
-                          ",", deparse1(substitute(var2)), "und", deparse1(substitute(var3))), 
+                          ",", deparse1(substitute(var2)), "und", 
+                          deparse1(substitute(var3))), 
              xlab = paste(deparse1(substitute(var1)), "unterteilt nach", 
                           deparse1(substitute(var3))) , 
              ylab = deparse1(substitute(var2)))
@@ -129,7 +186,7 @@ mosaic <- function(var1, var2, var3){
 
 
 #_______________________________________________________________________________
-# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleichen
+# Eine Funktion, die eine kategorielle und eine dichotome Variable vergleicht
 
 
 function(daten){
