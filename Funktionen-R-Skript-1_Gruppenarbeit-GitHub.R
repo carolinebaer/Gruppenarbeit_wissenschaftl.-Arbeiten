@@ -90,6 +90,7 @@ zsmhang <- function(GruppeEins, GruppeZwei){
 #verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
 #AlterMatheLK<- function(){
     #anzeigen:
+
 #    boxplot(Alter~Studienfach, daten, 
 #            main= "Altersstruktur innerhalb der Studiengaenge")
 #
@@ -100,18 +101,20 @@ zsmhang <- function(GruppeEins, GruppeZwei){
 #    dev.off()
 #}
 
-MetrischDichotom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname 
+MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spaltenname 
                                        # entspricht VarEins bzw. VarZwei
+                                       # Titel muss auch Variabel sein
   {
   #anzeigen:
   boxplot(VarEins~VarZwei, daten, 
-          main= "Altersstruktur innerhalb der Studiengaenge")
+          main= main)
   
   #abspeichern:
   pdf("MetrischDichotom.pdf")
   boxplot(VarEins~VarZwei, daten, 
-          main= "Altersstruktur innerhalb der Studiengaenge")
+          main= main)
   dev.off()
+
 }
 
 
@@ -120,23 +123,45 @@ MetrischDichotom<- function(VarEins, VarZwei) #eingabe mit Tabelle$Spaltenname
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
 #Interesse an Mathe
-umcodieren<- function(daten){
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
-  daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
 
-  daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
-  daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
+# umcodieren<- function(daten){
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
+#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
+# 
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
+#   daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
+# }
+
+umkodieren <- function(Variable){
+  if(range(Variable) %% 3 == 0){  # wenn die Spannweite der Ausp�gungen  ohne Rest durch drei teilbar ist
+    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
+    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable))] <- "hoch"
+      } else 
+  if(range(Variable) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
+    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
+    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-1)] <- "hoch"
+    Varibale[Variable == max(Variable)] <- "sehr hoch"
+     } else {                   # wenn der Rest der Division durch drei 2 ist  
+    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
+    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-2)] <- "hoch"
+    Varibale[Variable == c(max(Variable)-1 , max(Variable)] <- "sehr hoch"   
+        }
+
 }
+# ich bin mir nicht sicher ob da so richtig ist
 
 #_______________________________________________________________________________
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
