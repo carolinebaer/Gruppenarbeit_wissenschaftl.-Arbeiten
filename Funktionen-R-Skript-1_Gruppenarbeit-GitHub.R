@@ -143,21 +143,26 @@ MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spalten
 # }
 
 umkodieren <- function(Variable){
-  if(range(Variable) %% 3 == 0){  # wenn die Spannweite der AuspÔøΩgungen  ohne Rest durch drei teilbar ist
-    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
-    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable))] <- "hoch"
+  if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  ohne Rest durch drei teilbar ist
+    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
+    Varibale[Variable == c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
       } else 
-  if(range(Variable) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
-    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
-    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-1)] <- "hoch"
+  if(max(range(Variable)) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
+    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+    # ich weiﬂ nicht warum aber wenn es h‰ndisch ausprobiere kommen bei mir als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich den Doppelpunkt dazwischen setzte
+    # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, max(range(Variable))/3 +1 = 4+2/3 
+    # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist jedoch dann 4.666667 7.000000
+    #oder habe ich gerade hier einen Groﬂen Denkfehler, freue mich auf eure Anregungen
+    
+    Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
     Varibale[Variable == max(Variable)] <- "sehr hoch"
      } else {                   # wenn der Rest der Division durch drei 2 ist  
     Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
-    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-2)] <- "hoch"
-    Varibale[Variable == c(max(Variable)-1 , max(Variable)] <- "sehr hoch"   
+    Varibale[Variable == c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+    Varibale[Variable == c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
+    Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
         }
 
 }
