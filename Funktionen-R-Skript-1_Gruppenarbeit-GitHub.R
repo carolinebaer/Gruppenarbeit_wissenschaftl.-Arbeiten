@@ -124,6 +124,12 @@ MetrischDichotom<- function(VarMetrisch, VarDichotom) #eingabe mit
 
 }
 
+metrischDichotom_werte <- function(VarMetrisch, VarDichotom){
+  Korrelation <- cor(VarMetrisch, VarDichotom)
+  return(c("Korrelation" = Korrelation))
+}
+
+
 #_______________________________________________________________________________
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
@@ -231,3 +237,5 @@ function(daten){
 #_______________________________________________________________________________
 #Freiwillig: weitere zur Deskription und Visualisierung geeignete 
 #Funktionen
+
+
