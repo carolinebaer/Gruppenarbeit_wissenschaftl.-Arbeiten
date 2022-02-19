@@ -125,26 +125,19 @@ MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spalten
 umkodieren <- function(Variable){
   if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  
                                           #ohne Rest durch drei teilbar ist
-    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
-    Varibale[Variable == 
-            c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
-    Varibale[Variable == 
-               c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
+    Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
+    Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable)%/%3)))] <- "mittel"
+    Varibale[Variable == c(2*(max(range(Variable)%/%3)) +1 : max(Variable))] <- "hoch"
   } else 
-    if(max(range(Variable)) %% 3 == 1){ 
-      #wenn der Rest der Division durch drei 1 ist     
+    if(max(range(Variable)) %% 3 == 1){  #wenn der Rest der Division durch drei 1 ist     
       Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
-      Varibale[Variable == 
-             c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
-      Varibale[Variable == 
-                 c(2*(max(range(Variable))%/%3) +1 : max(Variable)-1)] <- "hoch"
+      Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
+      Varibale[Variable == c(2*(max(range(Variable))%/%3) +1 : max(Variable)-1)] <- "hoch"
       Varibale[Variable == max(Variable)] <- "sehr hoch"
     } else {                   # wenn der Rest der Division durch drei 2 ist  
       Varibale[Variable == c(min(Variable): range(Variable)%/%3)] <- "niedrig"
-      Varibale[Variable == 
-             c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
-      Varibale[Variable == 
-                 c(2*(max(range(Variable))%/%3) +1 : max(Variable)-2)] <- "hoch"
+      Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
+      Varibale[Variable == c(2*(max(range(Variable))%/%3) +1 : max(Variable)-2)] <- "hoch"
       Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
     }
 }
