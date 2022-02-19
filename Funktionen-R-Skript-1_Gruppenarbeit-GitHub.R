@@ -122,27 +122,10 @@ MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spalten
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
-#Interesse an Mathe
 
-# umcodieren<- function(daten){
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
-# 
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
-# }
 
 umkodieren <- function(Variable){
+<<<<<<< Updated upstream
   if(range(Variable) %% 3 == 0){  # wenn die Spannweite der Ausp�gungen  ohne Rest durch drei teilbar ist
     Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
     Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
@@ -160,8 +143,36 @@ umkodieren <- function(Variable){
     Varibale[Variable == c(max(Variable)-1 , max(Variable)] <- "sehr hoch"   
         }
 
+=======
+  if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  
+                                          #ohne Rest durch drei teilbar ist
+    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+    Varibale[Variable == 
+            c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
+    Varibale[Variable == 
+               c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
+  } else 
+    if(max(range(Variable)) %% 3 == 1){ 
+      #wenn der Rest der Division durch drei 1 ist     
+      Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
+      Varibale[Variable == 
+             c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
+      Varibale[Variable == 
+                 c(2*(max(range(Variable))%/%3) +1 : max(Variable)-1)] <- "hoch"
+      Varibale[Variable == max(Variable)] <- "sehr hoch"
+    } else {                   # wenn der Rest der Division durch drei 2 ist  
+      Varibale[Variable == c(min(Variable): range(Variable)%/%3)] <- "niedrig"
+      Varibale[Variable == 
+             c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
+      Varibale[Variable == 
+                 c(2*(max(range(Variable))%/%3) +1 : max(Variable)-2)] <- "hoch"
+      Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
+    }
+  
+>>>>>>> Stashed changes
 }
-# ich bin mir nicht sicher ob da so richtig ist
+
+#man muss die ganzzahlige Division verwenden. Das war der Fehler
 
 #_______________________________________________________________________________
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
