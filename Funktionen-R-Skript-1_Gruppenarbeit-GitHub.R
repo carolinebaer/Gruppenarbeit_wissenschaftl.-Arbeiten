@@ -122,28 +122,7 @@ MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spalten
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
-
-
 umkodieren <- function(Variable){
-<<<<<<< Updated upstream
-  if(range(Variable) %% 3 == 0){  # wenn die Spannweite der Ausp�gungen  ohne Rest durch drei teilbar ist
-    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
-    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable))] <- "hoch"
-      } else 
-  if(range(Variable) %% 3 == 1){ # wenn der Rest der Division durch drei 1 ist     
-    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
-    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-1)] <- "hoch"
-    Varibale[Variable == max(Variable)] <- "sehr hoch"
-     } else {                   # wenn der Rest der Division durch drei 2 ist  
-    Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-    Varibale[Variable == c(range(Variable)/3 +1 : 2*(range(Variable)/3))] <- "mittel"
-    Varibale[Variable == c(2*(range(Variable)/3) +1 : max(Variable)-2)] <- "hoch"
-    Varibale[Variable == c(max(Variable)-1 , max(Variable)] <- "sehr hoch"   
-        }
-
-=======
   if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  
                                           #ohne Rest durch drei teilbar ist
     Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
@@ -168,8 +147,6 @@ umkodieren <- function(Variable){
                  c(2*(max(range(Variable))%/%3) +1 : max(Variable)-2)] <- "hoch"
       Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
     }
-  
->>>>>>> Stashed changes
 }
 
 #man muss die ganzzahlige Division verwenden. Das war der Fehler
