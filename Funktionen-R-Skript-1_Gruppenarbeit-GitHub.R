@@ -56,7 +56,7 @@ desk_stat_nom <- function(variable){
   rel_hfgk <- entropie_vec / length(variable)
   Entropie <- sum(rel_hfgk * log(1/rel_hfgk))
   norm_Entropie <- Entropie / log(n)
-  return("normierte Entropie" = norm_Entropie)
+  return(c("normierte Entropie" = norm_Entropie))
 }
 
 #_______________________________________________________________________________
@@ -75,9 +75,9 @@ desk_stat_nom <- function(variable){
 #  return(Zusammenhang)
 #}
 
-zsmhang <- function(GruppeEins, GruppeZwei){
+zsmhang <- function(GruppeEins, GruppeZwei, names = c("GruppeEins", "GruppeZwei")){
   
-  Zusammenhang <- table(GruppeEins, GruppeZwei)
+  Zusammenhang <- table(GruppeEins, GruppeZwei, dnn = names)
   
   return(Zusammenhang)
 }
@@ -89,7 +89,7 @@ zsmhang <- function(GruppeEins, GruppeZwei){
 
 #verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
 #AlterMatheLK<- function(){
-    #anzeigen:
+#anzeigen:
 
 #    boxplot(Alter~Studienfach, daten, 
 #            main= "Altersstruktur innerhalb der Studiengaenge")
@@ -101,20 +101,32 @@ zsmhang <- function(GruppeEins, GruppeZwei){
 #    dev.off()
 #}
 
-MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spaltenname 
-                                       # entspricht VarEins bzw. VarZwei
-                                       # Titel muss auch Variabel sein
-  {
+MetrischDichotom<- function(VarMetrisch, VarDichotom) #eingabe mit 
+                                                        #Tabelle$Spaltenname 
+{
   #anzeigen:
-  boxplot(VarEins~VarZwei, daten, 
-          main= main)
+  boxplot(VarMetrisch~VarDichotom, daten, 
+          main= paste("Boxplot: Zusammenhang zwischen", 
+                      deparse1(substitute(VarMetrisch)), 
+                      "und", deparse1(substitute(VarDichotom))),
+          xlab = deparse1(substitute(VarDichotom)),
+          ylab = deparse1(substitute(VarMetrisch)))
   
   #abspeichern:
   pdf("MetrischDichotom.pdf")
-  boxplot(VarEins~VarZwei, daten, 
-          main= main)
+  boxplot(VarMetrisch~VarDichotom, daten, 
+          main = paste("Boxplot: Zusammenhang zwischen", 
+                       deparse1(substitute(VarMetrisch)), 
+                       "und", deparse1(substitute(VarDichotom))),
+          xlab = deparse1(substitute(VarDichotom)),
+          ylab = deparse1(substitute(VarMetrisch)))
   dev.off()
 
+}
+
+metrischDichotom_werte <- function(VarMetrisch, VarDichotom){
+  Korrelation <- cor(VarMetrisch, VarDichotom)
+  return(c("Korrelation" = Korrelation))
 }
 
 
@@ -125,6 +137,7 @@ MetrischDichotom<- function(VarEins, VarZwei, main) #eingabe mit Tabelle$Spalten
 umkodieren <- function(Variable){
   if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  
                                           #ohne Rest durch drei teilbar ist
+
     Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
     Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable)%/%3)))] <- "mittel"
     Varibale[Variable == c(2*(max(range(Variable)%/%3)) +1 : max(Variable))] <- "hoch"
@@ -140,6 +153,40 @@ umkodieren <- function(Variable){
       Varibale[Variable == c(2*(max(range(Variable))%/%3) +1 : max(Variable)-2)] <- "hoch"
       Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
     }
+ #   Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+ #   Varibale[Variable == 
+ #           c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
+ #   Varibale[Variable == 
+ #              c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
+ # } else 
+ #   if(max(range(Variable)) %% 3 == 1){ 
+ #     #wenn der Rest der Division durch drei 1 ist     
+ #     Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+ #     Varibale[Variable == 
+ #            c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+ #     # ich weiss nicht warum aber wenn es haendisch ausprobiere kommen bei mir 
+ #     #  als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich 
+ #     #  den Doppelpunkt dazwischen setzte
+ #     # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, 
+ #     #  max(range(Variable))/3 +1 = 4+2/3 
+ #     # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist 
+ #     #  jedoch dann 4.666667 7.000000
+ #     #oder habe ich gerade hier einen Grossen Denkfehler, freue mich auf eure 
+ #     # Anregungen
+ #     
+ #     Varibale[Variable == 
+ #                c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
+ #     Varibale[Variable == max(Variable)] <- "sehr hoch"
+ #   } else {                   # wenn der Rest der Division durch drei 2 ist  
+ #     Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+ #     Varibale[Variable == 
+ #            c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+ #     Varibale[Variable == 
+ #                c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
+ #     Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
+ #   }
+ # 
+
 }
 
 #man muss die ganzzahlige Division verwenden. Das war der Fehler
@@ -170,21 +217,23 @@ mosaic <- function(var1, var2, var3){
 
 
 function(daten){
-      # #welche Studiengaenge vorhanden:
-      # unique(daten$Studienfach)
-      # #[1] "Data Science" "Statistik"    "Informatik"   "Mathe" 
+  # #welche Studiengaenge vorhanden:
+  # unique(daten$Studienfach)
+  # #[1] "Data Science" "Statistik"    "Informatik"   "Mathe" 
   #Caro: ist doch eig. schon vorgegeben, dass es nur diese Faecher gibt, oder?
-
-      pdf("VergleichStudienfachMatheLK.pdf")
-      studienfach<-matrix(c(table(MatheLK$Studienfach), 
-                            table(NichtMatheLK$Studienfach)), nrow= 2, byrow= T)
-      barplot((studienfach), beside=TRUE, ylim= c(0,25), col = c("red", "blue"), 
-              names.arg= c("Data Science","Informatik", "Mathe","Statistik"), 
-              main= "Aufteilung nach Studienfach und Belegung des Mathe-LK", 
-              xlab= "Studienfach", ylab= "Absolute Haeufigkeit")
-      legend("top", fill = c("red", "blue"), box.lty=0, c("ja", "nein"))
-      dev.off()
+  
+  pdf("VergleichStudienfachMatheLK.pdf")
+  studienfach<-matrix(c(table(MatheLK$Studienfach), 
+                        table(NichtMatheLK$Studienfach)), nrow= 2, byrow= T)
+  barplot((studienfach), beside=TRUE, ylim= c(0,25), col = c("red", "blue"), 
+          names.arg= c("Data Science","Informatik", "Mathe","Statistik"), 
+          main= "Aufteilung nach Studienfach und Belegung des Mathe-LK", 
+          xlab= "Studienfach", ylab= "Absolute Haeufigkeit")
+  legend("top", fill = c("red", "blue"), box.lty=0, c("ja", "nein"))
+  dev.off()
 }
 #_______________________________________________________________________________
 #Freiwillig: weitere zur Deskription und Visualisierung geeignete 
 #Funktionen
+
+
