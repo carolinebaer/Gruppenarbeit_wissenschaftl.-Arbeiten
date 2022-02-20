@@ -134,64 +134,62 @@ metrischDichotom_werte <- function(VarMetrisch, VarDichotom){
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
-#Interesse an Mathe
-
-# umcodieren<- function(daten){
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 7]<- "sehr hoch"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 6]<- "hoch"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 5]<- "hoch"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 4]<- "mittel"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 3]<- "mittel"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 2]<- "niedrig"
-#   daten$Mathematik_Interesse[daten$Mathematik_Interesse== 1]<- "niedrig"
-# 
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==7]<- "sehr hoch"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==6]<- "hoch"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==5]<- "hoch"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==4]<- "mittel"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==3]<- "mittel"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==2]<- "niedrig"
-#   daten$Programmier_Interesse[daten$Programmier_Interesse==1]<- "niedrig"
-# }
-
 umkodieren <- function(Variable){
   if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  
                                           #ohne Rest durch drei teilbar ist
-    Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
-    Varibale[Variable == 
-            c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
-    Varibale[Variable == 
-               c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
+
+    Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
+    Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable)%/%3)))] <- "mittel"
+    Varibale[Variable == c(2*(max(range(Variable)%/%3)) +1 : max(Variable))] <- "hoch"
   } else 
-    if(max(range(Variable)) %% 3 == 1){ 
-      #wenn der Rest der Division durch drei 1 ist     
-      Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
-      Varibale[Variable == 
-             c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
-      # ich weiss nicht warum aber wenn es haendisch ausprobiere kommen bei mir 
-      #  als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich 
-      #  den Doppelpunkt dazwischen setzte
-      # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, 
-      #  max(range(Variable))/3 +1 = 4+2/3 
-      # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist 
-      #  jedoch dann 4.666667 7.000000
-      #oder habe ich gerade hier einen Grossen Denkfehler, freue mich auf eure 
-      # Anregungen
-      
-      Varibale[Variable == 
-                 c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
+    if(max(range(Variable)) %% 3 == 1){  #wenn der Rest der Division durch drei 1 ist     
+      Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
+      Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
+      Varibale[Variable == c(2*(max(range(Variable))%/%3) +1 : max(Variable)-1)] <- "hoch"
       Varibale[Variable == max(Variable)] <- "sehr hoch"
     } else {                   # wenn der Rest der Division durch drei 2 ist  
-      Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
-      Varibale[Variable == 
-             c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
-      Varibale[Variable == 
-                 c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
+      Varibale[Variable == c(min(Variable): range(Variable)%/%3)] <- "niedrig"
+      Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
+      Varibale[Variable == c(2*(max(range(Variable))%/%3) +1 : max(Variable)-2)] <- "hoch"
       Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
     }
-  
+ #   Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+ #   Varibale[Variable == 
+ #           c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
+ #   Varibale[Variable == 
+ #              c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
+ # } else 
+ #   if(max(range(Variable)) %% 3 == 1){ 
+ #     #wenn der Rest der Division durch drei 1 ist     
+ #     Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
+ #     Varibale[Variable == 
+ #            c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+ #     # ich weiss nicht warum aber wenn es haendisch ausprobiere kommen bei mir 
+ #     #  als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich 
+ #     #  den Doppelpunkt dazwischen setzte
+ #     # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, 
+ #     #  max(range(Variable))/3 +1 = 4+2/3 
+ #     # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist 
+ #     #  jedoch dann 4.666667 7.000000
+ #     #oder habe ich gerade hier einen Grossen Denkfehler, freue mich auf eure 
+ #     # Anregungen
+ #     
+ #     Varibale[Variable == 
+ #                c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
+ #     Varibale[Variable == max(Variable)] <- "sehr hoch"
+ #   } else {                   # wenn der Rest der Division durch drei 2 ist  
+ #     Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
+ #     Varibale[Variable == 
+ #            c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
+ #     Varibale[Variable == 
+ #                c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
+ #     Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
+ #   }
+ # 
+
 }
-# ich bin mir nicht sicher ob da so richtig ist
+
+#man muss die ganzzahlige Division verwenden. Das war der Fehler
 
 #_______________________________________________________________________________
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
