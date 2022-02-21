@@ -44,7 +44,9 @@ desk_stat_k <- function(variable){
   StichprobenUmfrang<- length(variable)
   
   # zu Liste Zusammenfassen
-  Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range, "Stichprobenumfang" = StichprobenUmfrang)
+  Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range, 
+                          "Stichprobenumfang" = StichprobenUmfrang,
+                          "Haeufigkeitstabelle" = table(variable))
   
   return(Zusammenfassung)
 }
@@ -193,6 +195,19 @@ umkodieren <- function(Variable){
 #man muss die ganzzahlige Division verwenden. Das war der Fehler.
 # bei mir wirft die Funktion immer noch den Fehler das er das Objekt "variable" nicht kennt (Esther)
 
+# Versuch quantilbasiert:
+# man koennte dann bspsw. eine neue Spalte an den Datensatz anhaengen:
+# daten$Mathe_kod <- kod_quantile(daten$Mathematik_Interesse)
+
+kod_quantile <- function(variable){
+  kodiert <- rep(0, length(variable))  # leeren Vektor erstellen
+  for(i in 1:length(kodiert)){
+    if(variable[i] <= quantile(variable, 0.25)){kodiert[i] <- "niedrig"} else
+      if(variable[i] >= quantile(variable, 0.75)){kodiert[i] <- "hoch"} else
+        kodiert[i] <- "mittel"
+      }
+  return(kodiert)
+}
 
 #_______________________________________________________________________________
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
