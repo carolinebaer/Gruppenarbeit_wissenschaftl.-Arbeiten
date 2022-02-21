@@ -41,9 +41,10 @@ desk_stat_k <- function(variable){
   
   #Streuungsmass:
   Range <- length(unique(variable))
+  StichprobenUmfrang<- nrow(variable)
   
   # zu Liste Zusammenfassen
-  Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range)
+  Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range, "Stichprobenumfang" = StichprobenUmfrang)
   
   return(Zusammenfassung)
 }
