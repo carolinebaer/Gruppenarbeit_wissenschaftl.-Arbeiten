@@ -41,7 +41,7 @@ desk_stat_k <- function(variable){
   
   #Streuungsmass:
   Range <- length(unique(variable))
-  StichprobenUmfrang<- nrow(variable)
+  StichprobenUmfrang<- length(variable)
   
   # zu Liste Zusammenfassen
   Zusammenfassung <- list("Modalwert" = Modalwert, "Range/Spannweite" = Range, "Stichprobenumfang" = StichprobenUmfrang)
@@ -140,19 +140,19 @@ umkodieren <- function(Variable){
                                           #ohne Rest durch drei teilbar ist
 
     Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
-    Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable)%/%3)))] <- "mittel"
-    Varibale[Variable == c(2*(max(range(Variable)%/%3)) +1 : max(Variable))] <- "hoch"
+    Varibale[Variable == c((max(range(Variable))%/%3 +1 ): (2*(max(range(Variable)%/%3))))] <- "mittel"
+    Varibale[Variable == c((2*(max(range(Variable)%/%3)) +1) : max(Variable))] <- "hoch"
   } else 
     if(max(range(Variable)) %% 3 == 1){  #wenn der Rest der Division durch drei 1 ist     
       Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
-      Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
-      Varibale[Variable == c(2*(max(range(Variable))%/%3) +1 : max(Variable)-1)] <- "hoch"
+      Varibale[Variable == c((max(range(Variable))%/%3 +1) : (2*(max(range(Variable))%/%3)))] <- "mittel"
+      Varibale[Variable == c((2*(max(range(Variable))%/%3) +1) : (max(Variable)-1))] <- "hoch"
       Varibale[Variable == max(Variable)] <- "sehr hoch"
     } else {                   # wenn der Rest der Division durch drei 2 ist  
-      Varibale[Variable == c(min(Variable): range(Variable)%/%3)] <- "niedrig"
-      Varibale[Variable == c(max(range(Variable))%/%3 +1 : 2*(max(range(Variable))%/%3))] <- "mittel"
-      Varibale[Variable == c(2*(max(range(Variable))%/%3) +1 : max(Variable)-2)] <- "hoch"
-      Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
+      Varibale[Variable == c(min(Variable): (range(Variable)%/%3))] <- "niedrig"
+      Varibale[Variable == c((max(range(Variable))%/%3 +1) : (2*(max(range(Variable))%/%3)))] <- "mittel"
+      Varibale[Variable == c((2*(max(range(Variable))%/%3) +1) : (max(Variable)-2))] <- "hoch"
+      Varibale[Variable == c((max(Variable)-1) , max(Variable))] <- "sehr hoch"   
     }
  #   Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
  #   Varibale[Variable == 
@@ -190,7 +190,9 @@ umkodieren <- function(Variable){
 
 }
 
-#man muss die ganzzahlige Division verwenden. Das war der Fehler
+#man muss die ganzzahlige Division verwenden. Das war der Fehler.
+# bei mir wirft die Funktion immer noch den Fehler das er das Objekt "variable" nicht kennt (Esther)
+
 
 #_______________________________________________________________________________
 #(f)Eine Funktion, die eine geeignete Visualisierung von drei oder vier 
