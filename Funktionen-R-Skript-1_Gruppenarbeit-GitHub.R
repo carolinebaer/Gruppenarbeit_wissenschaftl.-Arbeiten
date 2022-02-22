@@ -69,15 +69,6 @@ desk_stat_nom <- function(variable){
 # Idee: Kreuztabelle, weil Kovarianz oder Korrelation bei kategorialen Variablen 
 # nicht geht:
 
-#zsmhang <- function(){
-#  Zusammenhang <- data.frame(c(table(MatheLK$Studienfach)), 
-#                      c(table(NichtMatheLK$Studienfach)))
-#  rownames(Zusammenhang) <- c("Data Science", "Informatik", "Mathe", "Statistik")
-#  colnames(Zusammenhang) <- c("Mathe-LK", "Kein-Mathe-LK")
-#  
-#  return(Zusammenhang)
-#}
-
 zsmhang <- function(GruppeEins, GruppeZwei, names = c("GruppeEins", "GruppeZwei")){
   
   Zusammenhang <- table(GruppeEins, GruppeZwei, dnn = names)
@@ -90,19 +81,6 @@ zsmhang <- function(GruppeEins, GruppeZwei, names = c("GruppeEins", "GruppeZwei"
 #den Zusammengang zwischen einer metrischen und einer dichotomen Variablen 
 #berechnet und ausgibt
 
-#verhaeltniss Alter(metrisch) und Mathe-LK(dichotom)
-#AlterMatheLK<- function(){
-#anzeigen:
-
-#    boxplot(Alter~Studienfach, daten, 
-#            main= "Altersstruktur innerhalb der Studiengaenge")
-#
-#    #abspeichern:
-#    pdf("VergleichAlterMatheLK.pdf")
-#    boxplot(Alter~Studienfach, daten, 
-#            main= "Altersstruktur innerhalb der Studiengaenge")
-#    dev.off()
-#}
 
 MetrischDichotom<- function(VarMetrisch, VarDichotom) #eingabe mit 
                                                         #Tabelle$Spaltenname 
@@ -156,44 +134,8 @@ umkodieren <- function(Variable){
       Varibale[Variable == c((2*(max(range(Variable))%/%3) +1) : (max(Variable)-2))] <- "hoch"
       Varibale[Variable == c((max(Variable)-1) , max(Variable))] <- "sehr hoch"   
     }
- #   Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
- #   Varibale[Variable == 
- #           c(max(range(Variable))/3 +1 : 2*(max(range(Variable)/3)))] <- "mittel"
- #   Varibale[Variable == 
- #              c(2*(max(range(Variable)/3)) +1 : max(Variable))] <- "hoch"
- # } else 
- #   if(max(range(Variable)) %% 3 == 1){ 
- #     #wenn der Rest der Division durch drei 1 ist     
- #     Varibale[Variable == c(min(Variable): max(range(Variable)/3))] <- "niedrig"
- #     Varibale[Variable == 
- #            c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
- #     # ich weiss nicht warum aber wenn es haendisch ausprobiere kommen bei mir 
- #     #  als untere und obere Grenze desvektoren andere Zahlen raus, als wenn ich 
- #     #  den Doppelpunkt dazwischen setzte
- #     # Zahlenbeispiel max(Range(Variable))==7 -> max(range(Variable))/3 +1= 4/3, 
- #     #  max(range(Variable))/3 +1 = 4+2/3 
- #     # c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3)) der Vektor ist 
- #     #  jedoch dann 4.666667 7.000000
- #     #oder habe ich gerade hier einen Grossen Denkfehler, freue mich auf eure 
- #     # Anregungen
- #     
- #     Varibale[Variable == 
- #                c(2*(max(range(Variable))/3) +1 : max(Variable)-1)] <- "hoch"
- #     Varibale[Variable == max(Variable)] <- "sehr hoch"
- #   } else {                   # wenn der Rest der Division durch drei 2 ist  
- #     Varibale[Variable == c(min(Variable): range(Variable)/3)] <- "niedrig"
- #     Varibale[Variable == 
- #            c(max(range(Variable))/3 +1 : 2*(max(range(Variable))/3))] <- "mittel"
- #     Varibale[Variable == 
- #                c(2*(max(range(Variable))/3) +1 : max(Variable)-2)] <- "hoch"
- #     Varibale[Variable == c(max(Variable)-1 , max(Variable))] <- "sehr hoch"   
- #   }
- # 
 
 }
-
-#man muss die ganzzahlige Division verwenden. Das war der Fehler.
-# bei mir wirft die Funktion immer noch den Fehler das er das Objekt "variable" nicht kennt (Esther)
 
 # Versuch quantilbasiert:
 # man koennte dann bspsw. eine neue Spalte an den Datensatz anhaengen:
@@ -214,9 +156,6 @@ kod_quantile <- function(variable){
 #kategorialen Variablen erstellt
 
 # Idee: Mosaikplot fuer 3 kategoriale Variablen:
-# anbieten wuerde sich z.B. 
-# var1: Studienfach, var2: Mathe-LK (ja/nein), var3: Interesse an 
-#  Mathe/Programmieren
 
 mosaic <- function(var1, var2, var3){
   x <- table(var1, var2, var3)
