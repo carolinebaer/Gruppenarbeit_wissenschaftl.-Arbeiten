@@ -27,3 +27,26 @@ daten_dichtom_kodiert <- daten
 daten_dichtom_kodiert$LK_in_Mathe[daten_dichtom_kodiert$LK_in_Mathe == "ja"] <- 1
 daten_dichtom_kodiert$LK_in_Mathe[daten_dichtom_kodiert$LK_in_Mathe == "nein"]<-0
 daten_dichtom_kodiert$LK_in_Mathe <-as.numeric(daten_dichtom_kodiert$LK_in_Mathe)
+
+
+### Hilfsfunktion
+
+# erstellt einen leeren Vektor mit Laenge einer Variable
+# anwendung in kod_quantile
+
+leer <- function(variable){
+   leer<- rep(0, length(variable)) 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -115,34 +115,13 @@ metrischDichotom_werte <- function(VarMetrisch, VarDichotom){
 #(e) Eine Funktion, die eine mindestens ordinal skalierte Variable 
 #quantilbasiert kategorisiert (z.B. in "niedrig", "mittel", "hoch")
 
-umkodieren <- function(Variable){
-  if(max(range(Variable)) %% 3 == 0){  # wenn die Spannweite der Auspraegungen  
-                                          #ohne Rest durch drei teilbar ist
-
-    Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
-    Varibale[Variable == c((max(range(Variable))%/%3 +1 ): (2*(max(range(Variable)%/%3))))] <- "mittel"
-    Varibale[Variable == c((2*(max(range(Variable)%/%3)) +1) : max(Variable))] <- "hoch"
-  } else 
-    if(max(range(Variable)) %% 3 == 1){  #wenn der Rest der Division durch drei 1 ist     
-      Varibale[Variable == c(min(Variable): max(range(Variable)%/%3))] <- "niedrig"
-      Varibale[Variable == c((max(range(Variable))%/%3 +1) : (2*(max(range(Variable))%/%3)))] <- "mittel"
-      Varibale[Variable == c((2*(max(range(Variable))%/%3) +1) : (max(Variable)-1))] <- "hoch"
-      Varibale[Variable == max(Variable)] <- "sehr hoch"
-    } else {                   # wenn der Rest der Division durch drei 2 ist  
-      Varibale[Variable == c(min(Variable): (range(Variable)%/%3))] <- "niedrig"
-      Varibale[Variable == c((max(range(Variable))%/%3 +1) : (2*(max(range(Variable))%/%3)))] <- "mittel"
-      Varibale[Variable == c((2*(max(range(Variable))%/%3) +1) : (max(Variable)-2))] <- "hoch"
-      Varibale[Variable == c((max(Variable)-1) , max(Variable))] <- "sehr hoch"   
-    }
-
-}
 
 # Versuch quantilbasiert:
 # man koennte dann bspsw. eine neue Spalte an den Datensatz anhaengen:
 # daten$Mathe_kod <- kod_quantile(daten$Mathematik_Interesse)
 
 kod_quantile <- function(variable){
-  kodiert <- rep(0, length(variable))  # leeren Vektor erstellen
+  kodiert <- leer(variable)  # leeren Vektor erstellen
   for(i in 1:length(kodiert)){
     if(variable[i] <= quantile(variable, 0.25)){kodiert[i] <- "niedrig"} else
       if(variable[i] >= quantile(variable, 0.75)){kodiert[i] <- "hoch"} else
