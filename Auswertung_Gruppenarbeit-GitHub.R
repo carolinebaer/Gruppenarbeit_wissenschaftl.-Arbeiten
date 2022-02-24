@@ -250,15 +250,64 @@ desk_stat_k(Informatiker$LK_in_Mathe)
 ## es ist bekannt, das Mathematik und Statistik einen höheren Matheanteil besitzen als Informatik und Data Science
 ##-> je höher der Matheanteil in einem Studium ist, desto größer ist der Anteil der Studierenden die vorher den MatheLK belegt haben
 
+
+
+#c)
+##Zusammenhang zwischen dem Studienfach und Interesse an Mathematik
+
+zsmhang(daten$Studienfach, daten$Mathe_kod, names= c("Studienfach", "Interesse an Mathmatik"))
+# Interesse an Mathmatik
+# Studienfach    hoch mittel niedrig
+# Data Science   10      4      19
+# Informatik      5      1      15
+# Mathe          11      1       0
+# Statistik      21     10       3
+
+pdf("Zsmhang.Studienfach.Mathe_Int.pdf")
+mosaicplot(zsmhang(daten$Studienfach, daten$Mathe_kod, 
+                   names= c("Studienfach", "Interesse an Mathmatik")), 
+           main = "Zusammenhang Studienfach und Interesse an Mathmatik")
+dev.off()
+
+# Mathematiker weisen das hoechstes Interesse an Mathematik auf. Es sind fast alle 
+# Mathestudierende sehr an Mathematik Interessiert.
+# Das zweithoechste Interesse an Mathematik weisen die Statistikstudierenden auf.
+# Die Data Science-Studierende haben ein geringeres Interesse an Mathematik als die
+# Statik-Studierenden, aner Ihr Interesse an Mathematik ist etwas hoeher als das der 
+# Informatik-Studierenden.
+
+
+##Zusammenhang zwischen dem Studienfach und Interesse an Programmieren
+
+zsmhang(daten$Studienfach, daten$Info_kod, names= c("Studienfach", "Interesse an Programmieren"))
+# GruppeZwei
+# GruppeEins     hoch mittel niedrig
+# Data Science    4     26       3
+# Informatik     15      6       0
+# Mathe           1      2       9
+# Statistik       8     12      14
+
+pdf("Zsmhang.Studienfach.Prog_Int.pdf")
+mosaicplot(zsmhang(daten$Studienfach, daten$Info_kod, 
+                   names= c("Studienfach", "Interesse an Programmieren")),
+           main = "Zusammenhang Studienfach und Interesse an Mathmatik")
+dev.off()
+
+# Die Informatiker weisen das hoechste Interesse an Programmieren auf. Keiner der
+# Informatikstudierenden ist weist ein niederiges Interesse an Programmieren auf.
+# Der Großteil der Data-Science-Studierenden ist mittelhoch an Programmieren interessiert.
+# Die Statistikstudierenden weisen ein deutlich geringeres Interesse an Informatik auf.
+# Die Mathematik-Studierende haben ein sehr niedriges Interesse an Programmieren.
+
 ## d)
 
-# MetrischDichotom(daten$Mathematik_Interesse, daten$LK_in_Mathe)
+MetrischDichotom(daten$Mathematik_Interesse, daten$LK_in_Mathe)
 # # Die Interesse an Mathematik ist bei den Mathe Lker höher als der den Nicht-Mathe Lker. Der Median der Mathe LKer liegt bei 5
 # # und das obere bzw das untere Quartil liegt bei 6 bzw. bei 4.5. Die Werte bei den Nicht Mathe LKer sind
 # # viel niedriger, nämlich liegt der Median bei 3 und das obere bzw das untere Quartil liegt bei 4 bzw. bei 3. Außerdem hat keiner der Mathe LK-Schueler*innen
 # # die niedrigste Bewertung ausgewählt.
 # 
-# MetrischDichotom(daten$Programmier_Interesse, daten$LK_in_Mathe)
+MetrischDichotom(daten$Programmier_Interesse, daten$LK_in_Mathe)
 # # Die Personen, die Mathe LK haben zeigen weniger Interesse an prorammieren als die Personen die keinen Mathe LK haben,
 # # Der Median bei den nicht Mathe LKer liegt bei 6 und das obere bzw. das untere Quartil liegt bei 7 bzw. bei 5. Die Werte 
 # # sind bei den Mathe LKer niedriger, nämlich ist der Median bei 5 und das obere bzw. das untere Quartil liegt bei 6.5 und 3.
