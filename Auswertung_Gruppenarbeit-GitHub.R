@@ -250,9 +250,18 @@ desk_stat_k(Informatiker$LK_in_Mathe)
 ## es ist bekannt, das Mathematik und Statistik einen höheren Matheanteil besitzen als Informatik und Data Science
 ##-> je höher der Matheanteil in einem Studium ist, desto größer ist der Anteil der Studierenden die vorher den MatheLK belegt haben
 
+## d)
 
-
-
+# MetrischDichotom(daten$Mathematik_Interesse, daten$LK_in_Mathe)
+# # Die Interesse an Mathematik ist bei den Mathe Lker höher als der den Nicht-Mathe Lker. Der Median der Mathe LKer liegt bei 5
+# # und das obere bzw das untere Quartil liegt bei 6 bzw. bei 4.5. Die Werte bei den Nicht Mathe LKer sind
+# # viel niedriger, nämlich liegt der Median bei 3 und das obere bzw das untere Quartil liegt bei 4 bzw. bei 3. Außerdem hat keiner der Mathe LK-Schueler*innen
+# # die niedrigste Bewertung ausgewählt.
+# 
+# MetrischDichotom(daten$Programmier_Interesse, daten$LK_in_Mathe)
+# # Die Personen, die Mathe LK haben zeigen weniger Interesse an prorammieren als die Personen die keinen Mathe LK haben,
+# # Der Median bei den nicht Mathe LKer liegt bei 6 und das obere bzw. das untere Quartil liegt bei 7 bzw. bei 5. Die Werte 
+# # sind bei den Mathe LKer niedriger, nämlich ist der Median bei 5 und das obere bzw. das untere Quartil liegt bei 6.5 und 3.
 
 
 
