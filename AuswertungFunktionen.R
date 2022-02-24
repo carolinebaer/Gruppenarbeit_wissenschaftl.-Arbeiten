@@ -1,0 +1,248 @@
+### Schtitt 3: Auswertung der Funktionen
+
+#a)
+Lage_und_Streuung(daten$Alter)
+#$Mittelwert
+#[1] 24.76
+#
+#$Median
+#[1] 25
+#
+#$Minimum
+#[1] 21
+#
+#$Maximum
+#[1] 31
+#
+#$Quantile
+#0%   25%   50%   75%  100% 
+#21.00 23.75 25.00 26.00 31.00 
+#
+#$Varianz
+#[1] 4.022626
+#
+#$Standardabweichung
+#[1] 2.005649
+#
+#$Spannweite
+#[1] 10
+#
+#$Interquartilsabstand
+#[1] 2.25
+
+
+
+
+Lage_und_Streuung(Statistiker$Alter)
+#$Mittelwert
+#[1] 25
+#
+#$Median
+#[1] 25
+#
+#$Minimum
+#[1] 21
+#
+#$Maximum
+#[1] 31
+#
+#$Quantile
+#0%  25%  50%  75% 100% 
+#21   23   25   26   31 
+#
+#$Varianz
+#[1] 5.333333
+#
+#$Standardabweichung
+#[1] 2.309401
+#
+#$Spannweite
+#[1] 10
+#
+#$Interquartilsabstand
+#[1] 3
+
+Lage_und_Streuung(Data_Scientists$Alter)
+#$Mittelwert
+#[1] 24.60606
+#
+#$Median
+#[1] 25
+#
+#$Minimum
+#[1] 21
+#
+#$Maximum
+#[1] 29
+#
+#$Quantile
+#0%  25%  50%  75% 100% 
+#21   23   25   26   29 
+#
+#$Varianz
+#[1] 4.621212
+#
+#$Standardabweichung
+#[1] 2.1497
+#
+#$Spannweite
+#[1] 8
+#
+#$Interquartilsabstand
+#[1] 3
+
+
+Lage_und_Streuung(Mathematiker$Alter)
+#$Mittelwert
+#[1] 25
+#
+#$Median
+#[1] 25
+#
+#$Minimum
+#[1] 22
+#
+#$Maximum
+#[1] 27
+#
+#$Quantile
+#0%   25%   50%   75%  100% 
+#22.00 24.75 25.00 26.00 27.00 
+#
+#$Varianz
+#[1] 2.181818
+#
+#$Standardabweichung
+#[1] 1.477098
+#
+#$Spannweite
+#[1] 5
+#
+#$Interquartilsabstand
+#[1] 1.25
+
+Lage_und_Streuung(Informatiker$Alter)
+#$Mittelwert
+#[1] 24.47619
+#
+#$Median
+#[1] 24
+#
+#$Minimum
+#[1] 21
+#
+#$Maximum
+#[1] 27
+#
+#$Quantile
+#0%  25%  50%  75% 100% 
+#21   24   24   25   27 
+#
+#$Varianz
+#[1] 2.261905
+#
+#$Standardabweichung
+#[1] 1.503963
+#
+#$Spannweite
+#[1] 6
+#
+#$Interquartilsabstand
+#[1] 1
+
+##die Daten von Data Science und Statistik sind sich ähnlich
+# Median beide male bei 25
+# minimum bei 21
+# max bei 29, 31 -> unetrschiedlicher Interquartilsabstand
+# var 4.8 und 5.33 -> unterscheidung lediglich 11% mehr von Stat zu DS
+#  standartabweichung von 2.149 zu 2.31 -> 7.5% mehr bei Stat zu DS
+# interquartilsabstand bei 3
+
+## Mathemathik und Informatik ebenso
+# min 22 bzw. 21
+# max 27 -> jünger als bei Statistik bzw. SC
+# var bei 2.26 zu 2.16 -> 4.6% unterschied
+# var: 1.504 zu 1.477 -> 1.828%
+# interquartilsabstand: 1 zu 1.25 -> 25%
+
+#alle 
+#median immer bei 25 außer Informatik(24)
+
+##Gesamtauswetung:
+# Die Altersstruktur innerhalb der Studiengänge Mathematik und Informatik, sowie Statistik und Data Science sind ähnlich
+# hier bei liegt der Median bei allen Studiengängen, ausgenommen Informatik(24) bei 25.
+# Ebenso liegt das Minimum bei 21 außer bei Mathematik (22)
+# die Mathematiker sind jedoch durchschnuttlich die jüngsten wenn man die Werte der Quantile betrachetet
+
+# Angaben in Jahren
+
+
+#b)
+desk_stat_k(daten$LK_in_Mathe)
+#$Modalwert
+#nein 
+#53 
+
+#$`Range/Spannweite`
+#[1] 2
+
+#mindestens 50% der SP hatten keinen MatheLK (55 von 100)
+
+
+desk_stat_k(Statistiker$LK_in_Mathe)
+#$Modalwert
+#ja 
+#22 
+
+#$`Range/Spannweite`
+#[1] 2
+#$Stichprobenumfang
+#[1] 34
+
+#die Mehrheit der Statistiker hatte Mathe LK-> 22 von 34 -> 0.6471
+
+desk_stat_k(Data_Scientists$LK_in_Mathe)
+#$Modalwert
+#nein 
+#22 
+#
+#$`Range/Spannweite`
+#[1] 2
+#
+#$Stichprobenumfang
+#[1] 33
+
+# die meisten der Data Scientisten hatten keinen MatheLK -> lediglich 11 von 33 -> 1/3
+
+
+desk_stat_k(Mathematiker$LK_in_Mathe)
+#$Modalwert
+#ja 
+#8 
+#
+#$`Range/Spannweite`
+#[1] 2
+#
+#$Stichprobenumfang
+#[1] 12
+
+##die Mehrheit der Mathematik studenten hatte Mathe LK (8 von 12) -> 75%
+
+desk_stat_k(Informatiker$LK_in_Mathe)
+#$Modalwert
+#nein 
+#15 
+#
+#$`Range/Spannweite`
+#[1] 2
+#
+#$Stichprobenumfang
+#[1] 21
+## die meisten der Informatiker hatten keinen Mathe-Lk lediglich (15/21) ->  0.2857143
+
+## es ist bekannt, das Mathematik und Statistik einen höheren Matheanteil besitzen als Informatik und Data Science
+##-> je höher der Matheanteil in einem Studium ist, desto größer ist der Anteil der Studierenden die vorher den MatheLK belegt haben
+
+
+
+
