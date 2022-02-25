@@ -186,7 +186,7 @@ Lage_und_Streuung(Informatiker$Alter)
 # Die Altersstruktur innerhalb der Studiengänge Mathematik und Informatik, sowie Statistik und Data Science sind ähnlich
 # hier bei liegt der Median bei allen Studiengängen, ausgenommen Informatik(24) bei 25.
 # Ebenso liegt das Minimum bei 21 außer bei Mathematik (22)
-# die Mathematiker sind jedoch durchschnuttlich die jüngsten wenn man die Werte der Quantile betrachetet
+# die Mathematiker sind jedoch durchschnittlich die jüngsten wenn man die Werte der Quantile betrachetet
 
 # Angaben in Jahren
 
@@ -239,7 +239,7 @@ desk_stat_k(Mathematiker$LK_in_Mathe)
 #$Stichprobenumfang
 #[1] 12
 
-##die Mehrheit der Mathematik studenten hatte Mathe LK (8 von 12) -> 75%
+##die Mehrheit der Mathematik studenten hatte Mathe LK (8 von 12) -> 2/3
 
 desk_stat_k(Informatiker$LK_in_Mathe)
 #$Modalwert
