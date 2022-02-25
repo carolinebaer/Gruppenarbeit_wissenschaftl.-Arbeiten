@@ -348,3 +348,44 @@ dev.off()
 ## Je höher das Interesse am Programmieren bei den Mathestudierenden ist, umso kleiner ist der Anteil der Leute die Mathe-LK hatten. Bei den Informatikstudierenden
 ## ist das Gegenteil der Fall. Bei den Statistikstudierenden ist der Anteil der Leute die Mathe-LK hatten bei allen drei Kategorien groesser, als der Anteil der Nicht-Mathe-LKer.
 
+
+
+# Auswetung der Daten mit Hilfe von Grafiken
+#Allgemeine Altersstruktur des Datensatzes
+boxplot(daten$Alter, main= "Altersstruktur des Datensatzes", ylab= "Alter in Jahren")
+barplot(table(daten$Alter),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", ylab= "Absolute Anzahl", ylim= c(0, 30))
+barplot(table(daten$Alter)/nrow(daten),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", ylab= "Relative Anzahl", ylim= c(0, 0.25))
+## Die groeßte Altersgruppe bilden die 25-jaehrigen (24%).
+## Die juengste Person ist 21 Jahre alt, 25 % der Personen ins maximal 24 Jahre alt.
+## Die aelteste Person ist 31 Jahre alt. Dies stellt einen Ausreißer da, da 75% der Stichprobe maximal 29 Jahre alt sind.
+
+
+#Alterstruktur des Datensatzes seperiert nach Studienfaechern
+boxplot(Alter~Studienfach, daten, main= "Alterstruktur des Datensatzes seperiert nach Studienfach")
+
+#Haeufigkeit der Studiengaenge
+barplot(table(daten$Studienfach), xlab= "Studienfach", ylab = "absolute Haeufigkeit", main= "Verteilung der Studienfächer", ylim= c(0, 35))
+barplot(table(daten$Studienfach)/nrow(daten),ylim = c( 0, 0.35), xlab= "Studienfach", ylab = "relative Haeufigkeit", main= "Verteilung der Studienfächer")
+## Der Studiengang Mathe ist am seltenstens vorhanden (12%).
+## Informatik ist mit etwas mehr als 20% vertreten.
+## Data Science und Statistik sind jeweils ca. 1/3 der SP, und damit am haeufistens vorhanden.
+
+
+boxplot(Alter~LK_in_Mathe, daten, main = "Altersstruktur seperiert nach MatheLK")
+## Der Median liegt im Durchschnitt bei 25 jahren in beiden Teilgruppen.
+## Das 25 %Quantil liegt bei den ehemaligen Mathe-LKlern liegt bei 24 bei den nicht Mathe-LKlern hingegen bei 23. Das 75% Quantil liegt beide male bei 26.
+## Dies deutete darauf hin, dass das Alter und das belegen eines Mathe-LKs keinen Einfluss hat.
+
+
+boxplot(Mathematik_Interesse~ LK_in_Mathe, daten, main= "Zusammenhang Mathematikinteresse und Mathe LK")
+## Wenn eine Person den Mathe-LK belegt haben diese ein höheres Interesse an Mathematik.
+## Bei Belegung des Mathe LKs liegt der Median bei 5 von 7. Bei nicht Belegung des Mathe LKs liegt dieser bei 3.
+## Es gibt jedoch in beiden Gruppen Ausreißer. Denn in der Gruppe der nicht Mathe_LKler ist jeder Wert vorhanden. 
+## In der MatheLK gruppe ist bis auf den Wert "1" jeder Wert vorhanden.
+
+
+boxplot(Programmier_Interesse~ LK_in_Mathe, daten)
+## Im Median liegt das Programmierinteresse höher in der Gruppe der Personen ohne Mathe_LK (6) als derer mit (5)
+## Desweiteren liegt das 25% Quantil in der MatheLK-Gruppe bei 3 und in der Gruppe ohne MatheLK bei 5.
+
+
