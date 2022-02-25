@@ -2,11 +2,17 @@
 ## Auswertung der Daten ##
 
 # Datensatz laden
-
-
+library(openxlsx)
+daten <- read.csv("Datensatz.csv")
 
 
 # Auswetung der Daten mit Hilfe der Funktionen aus Skript 1
+
+# Unterdatensaetze erstellen
+Statistiker <- subset(daten, Studienfach == "Statistik")
+Data_Scientists <- subset(daten, Studienfach =="Data Science")
+Mathematiker <- subset(daten, Studienfach == "Mathe")
+Informatiker <- subset(daten, Studienfach == "Informatik")
 
 # Funktion a
 Lage_und_Streuung(daten$Alter)
@@ -253,6 +259,11 @@ desk_stat_k(Informatiker$LK_in_Mathe)
 
 
 #c)
+# Interesse an Mathematik und Programmieren kategorisieren und an den Datensatz anhängen
+daten$Mathe_kod <- kod_quantile(daten$Mathematik_Interesse)
+daten$Info_kod <- kod_quantile(daten$Programmier_Interesse)
+
+
 ##Zusammenhang zwischen dem Studienfach und Interesse an Mathematik
 
 zsmhang(daten$Studienfach, daten$Mathe_kod, names= c("Studienfach", "Interesse an Mathmatik"))
@@ -312,7 +323,28 @@ MetrischDichotom(daten$Programmier_Interesse, daten$LK_in_Mathe)
 # # Der Median bei den nicht Mathe LKer liegt bei 6 und das obere bzw. das untere Quartil liegt bei 7 bzw. bei 5. Die Werte 
 # # sind bei den Mathe LKer niedriger, nämlich ist der Median bei 5 und das obere bzw. das untere Quartil liegt bei 6.5 und 3.
 
+## f)
 
+Studienfach <- daten_dichtom_kodiert$Studienfach
+M_Interesse <- kod_quantile(daten_dichtom_kodiert$Mathematik_Interesse)
+P_Interesse <- kod_quantile(daten_dichtom_kodiert$Programmier_Interesse)
+LK_in_Mathe <- daten$LK_in_Mathe
 
+pdf("Zusammenhang zwischen Studienfach, Mathematikinteresse und Mathe LK Wahl.pdf")
+mosaic(Studienfach, M_Interesse, LK_in_Mathe)
+dev.off()
 
-# Visualisierung der Daten
+## Das Interesse an Mathematik ist bei den Mathestudierenden am höchsten. Bei den Statistikstudierenden ist es am zweithöchsten.
+## Bei den Informatikstudierenden ist das Interesse an Mathematik am niedrigsten.
+## Bei allen vier Studiengängen lässt sich sagen, dass je höher das Interesse an Mathematik besteht, umso höher 
+## ist der Anteil der Leute, die Mathe-LK hatten.
+
+pdf("Zusammenhang zwischen Studienfach, Programmierinteresse und Mathe LK Wahl.pdf")
+mosaic(Studienfach,P_Interesse, LK_in_Mathe)
+dev.off()
+
+## Das Interesse am Programmieren ist bei den Informatikstudierenden am höchsten und bei den Mathestudierenden am niedrigsten.
+## Bei den Data Scientist-Studierenden hat die Mehrheit ein mittleres Interesse und bei den Statistik-Studierenden sind die drei Kategorien ausgeglichen verteilt.
+## Je höher das Interesse am Programmieren bei den Mathestudierenden ist, umso kleiner ist der Anteil der Leute die Mathe-LK hatten. Bei den Informatikstudierenden
+## ist das Gegenteil der Fall. Bei den Statistikstudierenden ist der Anteil der Leute die Mathe-LK hatten bei allen drei Kategorien groesser, als der Anteil der Nicht-Mathe-LKer.
+
