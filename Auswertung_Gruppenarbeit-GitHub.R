@@ -2,11 +2,17 @@
 ## Auswertung der Daten ##
 
 # Datensatz laden
-
-
+library(openxlsx)
+daten <- read.csv("Datensatz.csv")
 
 
 # Auswetung der Daten mit Hilfe der Funktionen aus Skript 1
+
+# Unterdatensaetze erstellen
+Statistiker <- subset(daten, Studienfach == "Statistik")
+Data_Scientists <- subset(daten, Studienfach =="Data Science")
+Mathematiker <- subset(daten, Studienfach == "Mathe")
+Informatiker <- subset(daten, Studienfach == "Informatik")
 
 # Funktion a
 Lage_und_Streuung(daten$Alter)
@@ -253,6 +259,11 @@ desk_stat_k(Informatiker$LK_in_Mathe)
 
 
 #c)
+# Interesse an Mathematik und Programmieren kategorisieren und an den Datensatz anhängen
+daten$Mathe_kod <- kod_quantile(daten$Mathematik_Interesse)
+daten$Info_kod <- kod_quantile(daten$Programmier_Interesse)
+
+
 ##Zusammenhang zwischen dem Studienfach und Interesse an Mathematik
 
 zsmhang(daten$Studienfach, daten$Mathe_kod, names= c("Studienfach", "Interesse an Mathmatik"))
@@ -337,4 +348,3 @@ dev.off()
 ## Je höher das Interesse am Programmieren bei den Mathestudierenden ist, umso kleiner ist der Anteil der Leute die Mathe-LK hatten. Bei den Informatikstudierenden
 ## ist das Gegenteil der Fall. Bei den Statistikstudierenden ist der Anteil der Leute die Mathe-LK hatten bei allen drei Kategorien groesser, als der Anteil der Nicht-Mathe-LKer.
 
-# Visualisierung der Daten
