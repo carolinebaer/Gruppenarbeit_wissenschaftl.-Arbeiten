@@ -8,6 +8,18 @@ daten <- read.csv("Datensatz.csv")
 
 # Auswetung der Daten mit Hilfe der Funktionen aus Skript 1
 
+#Allgemeine Altersstruktur des Datensatzes
+boxplot(daten$Alter, main= "Altersstruktur des Datensatzes", ylab= "Alter in Jahren")
+barplot(table(daten$Alter),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", 
+        ylab= "Absolute Anzahl", ylim= c(0, 30))
+barplot(table(daten$Alter)/nrow(daten),  main= "Altersstruktur des Datensatzes", 
+        xlab= "Alter in Jahren", ylab= "Relative Anzahl", ylim= c(0, 0.25))
+
+## Die groeßte Altersgruppe bilden die 25-jaehrigen (24%).
+## Die juengste Person ist 21 Jahre alt, 25 % der Personen ins maximal 24 Jahre alt.
+## Die aelteste Person ist 31 Jahre alt. Dies stellt einen Ausreißer da, 
+## da 75% der Stichprobe maximal 29 Jahre alt sind.
+
 # Unterdatensaetze erstellen
 Statistiker <- subset(daten, Studienfach == "Statistik")
 Data_Scientists <- subset(daten, Studienfach =="Data Science")
@@ -164,6 +176,9 @@ Lage_und_Streuung(Informatiker$Alter)
 #$Interquartilsabstand
 #[1] 1
 
+#Alterstruktur des Datensatzes seperiert nach Studienfaechern
+boxplot(Alter~Studienfach, daten, main= "Alterstruktur des Datensatzes seperiert nach Studienfach")
+
 ##die Daten von Data Science und Statistik sind sich ähnlich
 # Median beide male bei 25
 # minimum bei 21
@@ -311,6 +326,7 @@ dev.off()
 # Die Mathematik-Studierende haben ein sehr niedriges Interesse an Programmieren.
 
 ## d)
+## Zusammenhang zwischen Mathematik/Programmier Interesse und ob der Studierende Mathe-Lk hatte
 
 MetrischDichotom(daten$Mathematik_Interesse, daten$LK_in_Mathe)
 # # Die Interesse an Mathematik ist bei den Mathe Lker höher als der den Nicht-Mathe Lker. Der Median der Mathe LKer liegt bei 5
@@ -323,8 +339,29 @@ MetrischDichotom(daten$Programmier_Interesse, daten$LK_in_Mathe)
 # # Der Median bei den nicht Mathe LKer liegt bei 6 und das obere bzw. das untere Quartil liegt bei 7 bzw. bei 5. Die Werte 
 # # sind bei den Mathe LKer niedriger, nämlich ist der Median bei 5 und das obere bzw. das untere Quartil liegt bei 6.5 und 3.
 
-## f)
 
+# Math-Lk umkodieren
+daten_dichtom_kodiert <- daten
+daten_dichtom_kodiert$LK_in_Mathe[daten_dichtom_kodiert$LK_in_Mathe == "ja"] <- 1
+daten_dichtom_kodiert$LK_in_Mathe[daten_dichtom_kodiert$LK_in_Mathe == "nein"]<-0
+daten_dichtom_kodiert$LK_in_Mathe <-as.numeric(daten_dichtom_kodiert$LK_in_Mathe)
+
+metrischDichotom_werte(daten_dichtom_kodiert$Mathematik_Interesse, daten_dichtom_kodiert$LK_in_Mathe)
+# Korrelation 
+# 0.5736662 
+
+## Es gibt eine positive Korrelation zwischen dem Mathematik-Interesse und einer Mathe-LK-Wahl
+
+metrischDichotom_werte(daten_dichtom_kodiert$Programmier_Interesse, daten_dichtom_kodiert$LK_in_Mathe)
+# Korrelation 
+# -0.1714027 
+
+## Es gibt eine schwache negative Korrelation zwischen dem Programmier-Interesse und einer Math-LK-Wahl
+
+
+
+## f)
+## Zusammenhang zwischen Studienfach, Mathematikinteresse/Programmierinteresse und Mathe LK Wahl
 Studienfach <- daten_dichtom_kodiert$Studienfach
 Mathematik_Interesse <- kod_quantile(daten_dichtom_kodiert$Mathematik_Interesse)
 Programmier_Interesse <- kod_quantile(daten_dichtom_kodiert$Programmier_Interesse)
@@ -350,18 +387,8 @@ dev.off()
 
 
 
-# Auswetung der Daten mit Hilfe von Grafiken
-#Allgemeine Altersstruktur des Datensatzes
-boxplot(daten$Alter, main= "Altersstruktur des Datensatzes", ylab= "Alter in Jahren")
-barplot(table(daten$Alter),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", ylab= "Absolute Anzahl", ylim= c(0, 30))
-barplot(table(daten$Alter)/nrow(daten),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", ylab= "Relative Anzahl", ylim= c(0, 0.25))
-## Die groeßte Altersgruppe bilden die 25-jaehrigen (24%).
-## Die juengste Person ist 21 Jahre alt, 25 % der Personen ins maximal 24 Jahre alt.
-## Die aelteste Person ist 31 Jahre alt. Dies stellt einen Ausreißer da, da 75% der Stichprobe maximal 29 Jahre alt sind.
 
-
-#Alterstruktur des Datensatzes seperiert nach Studienfaechern
-boxplot(Alter~Studienfach, daten, main= "Alterstruktur des Datensatzes seperiert nach Studienfach")
+## Sonstige Visualisierungen des Datensatzes
 
 #Haeufigkeit der Studiengaenge
 barplot(table(daten$Studienfach), xlab= "Studienfach", ylab = "absolute Haeufigkeit", main= "Verteilung der Studienfächer", ylim= c(0, 35))
@@ -377,15 +404,5 @@ boxplot(Alter~LK_in_Mathe, daten, main = "Altersstruktur seperiert nach MatheLK"
 ## Dies deutete darauf hin, dass das Alter und das belegen eines Mathe-LKs keinen Einfluss hat.
 
 
-boxplot(Mathematik_Interesse~ LK_in_Mathe, daten, main= "Zusammenhang Mathematikinteresse und Mathe LK")
-## Wenn eine Person den Mathe-LK belegt haben diese ein höheres Interesse an Mathematik.
-## Bei Belegung des Mathe LKs liegt der Median bei 5 von 7. Bei nicht Belegung des Mathe LKs liegt dieser bei 3.
-## Es gibt jedoch in beiden Gruppen Ausreißer. Denn in der Gruppe der nicht Mathe_LKler ist jeder Wert vorhanden. 
-## In der MatheLK gruppe ist bis auf den Wert "1" jeder Wert vorhanden.
-
-
-boxplot(Programmier_Interesse~ LK_in_Mathe, daten)
-## Im Median liegt das Programmierinteresse höher in der Gruppe der Personen ohne Mathe_LK (6) als derer mit (5)
-## Desweiteren liegt das 25% Quantil in der MatheLK-Gruppe bei 3 und in der Gruppe ohne MatheLK bei 5.
 
 
