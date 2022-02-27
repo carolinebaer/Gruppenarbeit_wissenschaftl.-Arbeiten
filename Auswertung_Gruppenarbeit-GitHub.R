@@ -8,6 +8,18 @@ daten <- read.csv("Datensatz.csv")
 
 # Auswetung der Daten mit Hilfe der Funktionen aus Skript 1
 
+#Allgemeine Altersstruktur des Datensatzes
+boxplot(daten$Alter, main= "Altersstruktur des Datensatzes", ylab= "Alter in Jahren")
+barplot(table(daten$Alter),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", 
+        ylab= "Absolute Anzahl", ylim= c(0, 30))
+barplot(table(daten$Alter)/nrow(daten),  main= "Altersstruktur des Datensatzes", 
+        xlab= "Alter in Jahren", ylab= "Relative Anzahl", ylim= c(0, 0.25))
+
+## Die groeÃŸte Altersgruppe bilden die 25-jaehrigen (24%).
+## Die juengste Person ist 21 Jahre alt, 25 % der Personen ins maximal 24 Jahre alt.
+## Die aelteste Person ist 31 Jahre alt. Dies stellt einen AusreiÃŸer da, 
+## da 75% der Stichprobe maximal 29 Jahre alt sind.
+
 # Unterdatensaetze erstellen
 Statistiker <- subset(daten, Studienfach == "Statistik")
 Data_Scientists <- subset(daten, Studienfach =="Data Science")
@@ -164,7 +176,10 @@ Lage_und_Streuung(Informatiker$Alter)
 #$Interquartilsabstand
 #[1] 1
 
-##die Daten von Data Science und Statistik sind sich ähnlich
+#Alterstruktur des Datensatzes seperiert nach Studienfaechern
+boxplot(Alter~Studienfach, daten, main= "Alterstruktur des Datensatzes seperiert nach Studienfach")
+
+##die Daten von Data Science und Statistik sind sich Ã¤hnlich
 # Median beide male bei 25
 # minimum bei 21
 # max bei 29, 31 -> unetrschiedlicher Interquartilsabstand
@@ -174,19 +189,19 @@ Lage_und_Streuung(Informatiker$Alter)
 
 ## Mathemathik und Informatik ebenso
 # min 22 bzw. 21
-# max 27 -> jünger als bei Statistik bzw. SC
+# max 27 -> jÃ¼nger als bei Statistik bzw. SC
 # var bei 2.26 zu 2.16 -> 4.6% unterschied
 # var: 1.504 zu 1.477 -> 1.828%
 # interquartilsabstand: 1 zu 1.25 -> 25%
 
 #alle 
-#median immer bei 25 außer Informatik(24)
+#median immer bei 25 auÃŸer Informatik(24)
 
 ##Gesamtauswetung:
-# Die Altersstruktur innerhalb der Studiengänge Mathematik und Informatik, sowie Statistik und Data Science sind ähnlich
-# hier bei liegt der Median bei allen Studiengängen, ausgenommen Informatik(24) bei 25.
-# Ebenso liegt das Minimum bei 21 außer bei Mathematik (22)
-# die Mathematiker sind jedoch durchschnittlich die jüngsten wenn man die Werte der Quantile betrachetet
+# Die Altersstruktur innerhalb der StudiengÃ¤nge Mathematik und Informatik, sowie Statistik und Data Science sind Ã¤hnlich
+# hier bei liegt der Median bei allen StudiengÃ¤ngen, ausgenommen Informatik(24) bei 25.
+# Ebenso liegt das Minimum bei 21 auÃŸer bei Mathematik (22)
+# die Mathematiker sind jedoch durchschnittlich die jÃ¼ngsten wenn man die Werte der Quantile betrachetet
 
 # Angaben in Jahren
 
@@ -253,13 +268,13 @@ desk_stat_k(Informatiker$LK_in_Mathe)
 #[1] 21
 ## die meisten der Informatiker hatten keinen Mathe-Lk lediglich (15/21) ->  0.2857143
 
-## es ist bekannt, das Mathematik und Statistik einen höheren Matheanteil besitzen als Informatik und Data Science
-##-> je höher der Matheanteil in einem Studium ist, desto größer ist der Anteil der Studierenden die vorher den MatheLK belegt haben
+## es ist bekannt, das Mathematik und Statistik einen hÃ¶heren Matheanteil besitzen als Informatik und Data Science
+##-> je hÃ¶her der Matheanteil in einem Studium ist, desto grÃ¶ÃŸer ist der Anteil der Studierenden die vorher den MatheLK belegt haben
 
 
 
 #c)
-# Interesse an Mathematik und Programmieren kategorisieren und an den Datensatz anhängen
+# Interesse an Mathematik und Programmieren kategorisieren und an den Datensatz anhÃ¤ngen
 daten$Mathe_kod <- kod_quantile(daten$Mathematik_Interesse)
 daten$Info_kod <- kod_quantile(daten$Programmier_Interesse)
 
@@ -306,25 +321,47 @@ dev.off()
 
 # Die Informatiker weisen das hoechste Interesse an Programmieren auf. Keiner der
 # Informatikstudierenden ist weist ein niederiges Interesse an Programmieren auf.
-# Der Großteil der Data-Science-Studierenden ist mittelhoch an Programmieren interessiert.
+# Der GroÃŸteil der Data-Science-Studierenden ist mittelhoch an Programmieren interessiert.
 # Die Statistikstudierenden weisen ein deutlich geringeres Interesse an Informatik auf.
 # Die Mathematik-Studierende haben ein sehr niedriges Interesse an Programmieren.
 
 ## d)
+## Zusammenhang zwischen Mathematik/Programmier Interesse und ob der Studierende Mathe-Lk hatte
 
 MetrischDichotom(daten$Mathematik_Interesse, daten$LK_in_Mathe)
-# # Die Interesse an Mathematik ist bei den Mathe Lker höher als der den Nicht-Mathe Lker. Der Median der Mathe LKer liegt bei 5
+# # Die Interesse an Mathematik ist bei den Mathe Lker hÃ¶her als der den Nicht-Mathe Lker. Der Median der Mathe LKer liegt bei 5
 # # und das obere bzw das untere Quartil liegt bei 6 bzw. bei 4.5. Die Werte bei den Nicht Mathe LKer sind
-# # viel niedriger, nämlich liegt der Median bei 3 und das obere bzw das untere Quartil liegt bei 4 bzw. bei 3. Außerdem hat keiner der Mathe LK-Schueler*innen
-# # die niedrigste Bewertung ausgewählt.
+# # viel niedriger, nÃ¤mlich liegt der Median bei 3 und das obere bzw das untere Quartil liegt bei 4 bzw. bei 3. AuÃŸerdem hat keiner der Mathe LK-Schueler*innen
+# # die niedrigste Bewertung ausgewÃ¤hlt.
 # 
 MetrischDichotom(daten$Programmier_Interesse, daten$LK_in_Mathe)
 # # Die Personen, die Mathe LK haben zeigen weniger Interesse an prorammieren als die Personen die keinen Mathe LK haben,
 # # Der Median bei den nicht Mathe LKer liegt bei 6 und das obere bzw. das untere Quartil liegt bei 7 bzw. bei 5. Die Werte 
-# # sind bei den Mathe LKer niedriger, nämlich ist der Median bei 5 und das obere bzw. das untere Quartil liegt bei 6.5 und 3.
+# # sind bei den Mathe LKer niedriger, nÃ¤mlich ist der Median bei 5 und das obere bzw. das untere Quartil liegt bei 6.5 und 3.
+
+
+# Math-Lk umkodieren
+daten_dichtom_kodiert <- daten
+daten_dichtom_kodiert$LK_in_Mathe[daten_dichtom_kodiert$LK_in_Mathe == "ja"] <- 1
+daten_dichtom_kodiert$LK_in_Mathe[daten_dichtom_kodiert$LK_in_Mathe == "nein"]<-0
+daten_dichtom_kodiert$LK_in_Mathe <-as.numeric(daten_dichtom_kodiert$LK_in_Mathe)
+
+metrischDichotom_werte(daten_dichtom_kodiert$Mathematik_Interesse, daten_dichtom_kodiert$LK_in_Mathe)
+# Korrelation 
+# 0.5736662 
+
+## Es gibt eine positive Korrelation zwischen dem Mathematik-Interesse und einer Mathe-LK-Wahl
+
+metrischDichotom_werte(daten_dichtom_kodiert$Programmier_Interesse, daten_dichtom_kodiert$LK_in_Mathe)
+# Korrelation 
+# -0.1714027 
+
+## Es gibt eine schwache negative Korrelation zwischen dem Programmier-Interesse und einer Math-LK-Wahl
+
+
 
 ## f)
-
+## Zusammenhang zwischen Studienfach, Mathematikinteresse/Programmierinteresse und Mathe LK Wahl
 Studienfach <- daten_dichtom_kodiert$Studienfach
 Mathematik_Interesse <- kod_quantile(daten_dichtom_kodiert$Mathematik_Interesse)
 Programmier_Interesse <- kod_quantile(daten_dichtom_kodiert$Programmier_Interesse)
@@ -334,38 +371,26 @@ pdf("Zusammenhang zwischen Studienfach, Programmierinteresse und Mathe LK Wahl")
 mosaic(Studienfach, Mathematik_Interesse, LK_in_Mathe)
 dev.off()
 
-## Das Interesse an Mathematik ist bei den Mathestudierenden am höchsten. Bei den Statistikstudierenden ist es am zweithöchsten.
+## Das Interesse an Mathematik ist bei den Mathestudierenden am hÃ¶chsten. Bei den Statistikstudierenden ist es am zweithÃ¶chsten.
 ## Bei den Informatikstudierenden ist das Interesse an Mathematik am niedrigsten.
-## Bei allen vier Studiengängen lässt sich sagen, dass je höher das Interesse an Mathematik besteht, umso höher 
+## Bei allen vier StudiengÃ¤ngen lÃ¤sst sich sagen, dass je hÃ¶her das Interesse an Mathematik besteht, umso hÃ¶her 
 ## ist der Anteil der Leute, die Mathe-LK hatten.
 
 pdf("Zusammenhang zwischen Studienfach, Mathematikinteresse und Mathe LK Wahl")
 mosaic(Studienfach,Programmier_Interesse, LK_in_Mathe)
 dev.off()
 
-## Das Interesse am Programmieren ist bei den Informatikstudierenden am höchsten und bei den Mathestudierenden am niedrigsten.
+## Das Interesse am Programmieren ist bei den Informatikstudierenden am hÃ¶chsten und bei den Mathestudierenden am niedrigsten.
 ## Bei den Data Scientist-Studierenden hat die Mehrheit ein mittleres Interesse und bei den Statistik-Studierenden sind die drei Kategorien ausgeglichen verteilt.
-## Je höher das Interesse am Programmieren bei den Mathestudierenden ist, umso kleiner ist der Anteil der Leute die Mathe-LK hatten. Bei den Informatikstudierenden
+## Je hÃ¶her das Interesse am Programmieren bei den Mathestudierenden ist, umso kleiner ist der Anteil der Leute die Mathe-LK hatten. Bei den Informatikstudierenden
 ## ist das Gegenteil der Fall. Bei den Statistikstudierenden ist der Anteil der Leute die Mathe-LK hatten bei allen drei Kategorien groesser, als der Anteil der Nicht-Mathe-LKer.
 
 
-
-# Auswetung der Daten mit Hilfe von Grafiken
-#Allgemeine Altersstruktur des Datensatzes
-boxplot(daten$Alter, main= "Altersstruktur des Datensatzes", ylab= "Alter in Jahren")
-barplot(table(daten$Alter),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", ylab= "Absolute Anzahl", ylim= c(0, 30))
-barplot(table(daten$Alter)/nrow(daten),  main= "Altersstruktur des Datensatzes", xlab= "Alter in Jahren", ylab= "Relative Anzahl", ylim= c(0, 0.25))
-## Die groeßte Altersgruppe bilden die 25-jaehrigen (24%).
-## Die juengste Person ist 21 Jahre alt, 25 % der Personen ins maximal 24 Jahre alt.
-## Die aelteste Person ist 31 Jahre alt. Dies stellt einen Ausreißer da, da 75% der Stichprobe maximal 29 Jahre alt sind.
-
-
-#Alterstruktur des Datensatzes seperiert nach Studienfaechern
-boxplot(Alter~Studienfach, daten, main= "Alterstruktur des Datensatzes seperiert nach Studienfach")
+# Sonstige Visualisierungen
 
 #Haeufigkeit der Studiengaenge
-barplot(table(daten$Studienfach), xlab= "Studienfach", ylab = "absolute Haeufigkeit", main= "Verteilung der Studienfächer", ylim= c(0, 35))
-barplot(table(daten$Studienfach)/nrow(daten),ylim = c( 0, 0.35), xlab= "Studienfach", ylab = "relative Haeufigkeit", main= "Verteilung der Studienfächer")
+barplot(table(daten$Studienfach), xlab= "Studienfach", ylab = "absolute Haeufigkeit", main= "Verteilung der StudienfÃ¤cher", ylim= c(0, 35))
+barplot(table(daten$Studienfach)/nrow(daten),ylim = c( 0, 0.35), xlab= "Studienfach", ylab = "relative Haeufigkeit", main= "Verteilung der StudienfÃ¤cher")
 ## Der Studiengang Mathe ist am seltenstens vorhanden (12%).
 ## Informatik ist mit etwas mehr als 20% vertreten.
 ## Data Science und Statistik sind jeweils ca. 1/3 der SP, und damit am haeufistens vorhanden.
@@ -377,15 +402,6 @@ boxplot(Alter~LK_in_Mathe, daten, main = "Altersstruktur seperiert nach MatheLK"
 ## Dies deutete darauf hin, dass das Alter und das belegen eines Mathe-LKs keinen Einfluss hat.
 
 
-boxplot(Mathematik_Interesse~ LK_in_Mathe, daten, main= "Zusammenhang Mathematikinteresse und Mathe LK")
-## Wenn eine Person den Mathe-LK belegt haben diese ein höheres Interesse an Mathematik.
-## Bei Belegung des Mathe LKs liegt der Median bei 5 von 7. Bei nicht Belegung des Mathe LKs liegt dieser bei 3.
-## Es gibt jedoch in beiden Gruppen Ausreißer. Denn in der Gruppe der nicht Mathe_LKler ist jeder Wert vorhanden. 
-## In der MatheLK gruppe ist bis auf den Wert "1" jeder Wert vorhanden.
 
-
-boxplot(Programmier_Interesse~ LK_in_Mathe, daten)
-## Im Median liegt das Programmierinteresse höher in der Gruppe der Personen ohne Mathe_LK (6) als derer mit (5)
-## Desweiteren liegt das 25% Quantil in der MatheLK-Gruppe bei 3 und in der Gruppe ohne MatheLK bei 5.
 
 
